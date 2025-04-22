@@ -1,0 +1,160 @@
+<style>
+
+    .scrollh::-webkit-scrollbar {
+        display: none;
+    }
+    
+    </style>
+
+<!-- Elegant Artwork Modal -->
+<div id="artworkViewModal" class="fixed inset-0 bg-black/80 backdrop-blur-lg z-50 hidden" onclick="if (event.target === this) ArtworkManager.closeArtworkViewModal()">
+    <div class="min-h-screen flex items-center justify-center  relative">
+        <button onclick="ArtworkManager.closeArtworkViewModal()" 
+            class="absolute right-4 top-4 p-4 w-16 rounded-full bg-[#e5e7eb] shadow-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-all group">
+            <i class="fas fa-times text-gray-800 dark:text-gray-800 text-2xl group-hover:rotate-90 transition-transform duration-300"></i>
+        </button>
+        <button onclick="ArtworkManager.deleteArtwork()" 
+            class="absolute right-4 top-24 p-4 w-16 rounded-full bg-[#e5e7eb]  shadow-lg hover:bg-red-200  transition-all group">
+            <i class="fas fa-trash text-gray-600  text-2xl group-hover:rotate-12 transition-transform duration-300"></i>
+        </button>
+        <button onclick="ArtworkManager.startEditing()" 
+            class="absolute right-4 top-44 p-4 w-16 rounded-full bg-[#e5e7eb]  shadow-lg hover:bg-blue-200  transition-all group">
+            <i class="fas fa-edit text-gray-600  text-2xl group-hover:rotate-12 transition-transform duration-300"></i>
+        </button>
+        <div class="w-full max-w-6xl bg-white shadow-xl overflow-hidden transform relative">
+            <!-- Category & Tags -->
+            <div class="absolute top-4 right-4 text-right z-10">
+                <h4 class="text-3xl md:text-5xl font-semibold text-gray-700 dark:text-black">CATEGORY</h4>
+                <span id="artworkModalCategory" class="text-lg md:text-2xl text-gray-600 dark:text-gray-700 font-medium">Loading...</span>
+                <select id="artworkModalCategoryInput" class="hidden w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 transition-all">
+                    <option value="Fresco">Fresco</option>
+                    <option value="Tempera">Tempera</option>
+                    <option value="Oil Painting">Oil Painting</option>
+                    <option value="Baroque">Baroque</option>
+                    <option value="Rococo">Rococo</option>
+                    <option value="Neoclassicism">Neoclassicism</option>
+                    <option value="Romanticism">Romanticism</option>
+                    <option value="Realism">Realism</option>
+                    <option value="Academic Art">Academic Art</option>
+                </select>
+            </div>
+            <!-- Content Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Image Section -->
+                <div class="">
+                    <div class="group relative h-full w-full">
+                        <img id="artworkModalImage" src="" alt="Artwork" class="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+
+                    <!-- Engagement Stats -->
+                    <!--<div class="flex items-center justify-between px-2">
+                        <div class="flex items-center gap-6">
+                            <button onclick="FavoritesManager.toggleFavorite(JSON.parse(document.getElementById('artworkModal').dataset.artwork).id)" class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-red-500 transition-colors duration-300">
+                                <i id="favoriteIcon" class="fas fa-heart"></i>
+                                <span id="modalLikes" class="font-medium">0</span>
+                            </button>
+                            <button class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-500 transition-colors duration-300">
+                                <i class="fas fa-eye"></i>
+                                <span id="modalViews" class="font-medium">0</span>
+                            </button>
+                        </div>
+                        <button class="px-5 py-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium shadow-md hover:shadow-lg transition-all duration-300">
+                            Share
+                        </button>
+                    </div>-->
+                </div>
+
+                <!-- Details Section -->
+                <div class="space-y-6">
+                    <!-- Artist Profile -->
+                    <div class="flex items-center gap-4 mb-6">
+                        <!--<img id="modalArtistAvatar" src="/images/default-avatar.png" alt="Artist" class="w-12 h-12 rounded-full object-cover ring-2 ring-gray-200 dark:ring-gray-700 shadow-md">-->
+                        <div class="mt-10">
+                            <h4 id="artworkModalArtistName" class="text-lg font-semibold text-gray-900 dark:text-gray-900">Artist Name</h4>
+                            <h4 id="artworkModalArtistLocation" class="text-lg font-semibold text-gray-700 dark:text-gray-700">Artist Country</h4>
+                            <p id="artworkModalUploadDate" class="text-sm text-gray-700 dark:text-gray-400">Uploaded on...</p>
+                        </div>
+                    </div>
+
+                    <!-- Artwork Title and Description -->
+                    <div class="flex flex-col">
+                        <div class="mt-52">
+
+                            <textarea id="artworkModalTitle" 
+                                class="text-4xl md:text-6xl text-black font-bold w-full px-4 py-20 overflow-y-hidden bg-transparent border-0 focus:ring-2 focus:ring-blue-500 transition-all resize-none"
+                                rows="1">Artwork Title</textarea>
+                            
+                            <!-- Description -->
+                            <textarea id="artworkModalDescription" 
+                                class="text-gray-600 dark:text-gray-700 w-full px-4 py-2 bg-transparent border-0 focus:ring-2 focus:ring-blue-500 transition-all" 
+                                rows="3">Loading description...</textarea>
+
+                            <!-- Save Button (shown only in edit mode) -->
+                            <button id="saveArtworkBtn" onclick="ArtworkManager.saveChanges()" 
+                                class="absolute right-4 top-64 p-4 w-16 rounded-full bg-green-500 shadow-lg hover:bg-green-600 transition-all group hidden">
+                                <i class="fas fa-check text-white text-2xl"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                    <!-- Price Section -->
+                    <!--<div id="modalPriceSection" class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <label class="text-lg font-semibold text-gray-700 dark:text-gray-300">Sell this artwork</label>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Enable to list in marketplace</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="modalSellArtwork" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-500"></div>
+                            </label>
+                        </div>
+                        <div id="modalPriceInputSection" class="hidden">
+                            <div class="relative">
+                                <i class="fas fa-dollar-sign absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                <input type="number" 
+                                    id="modalPriceInput"
+                                    min="0.99" 
+                                    step="0.01"
+                                    placeholder="Enter price (minimum $0.99)"
+                                    class="w-full p-3 pl-10 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 transition-all">
+                                <div class="absolute right-3 top-1/2 -translate-y-1/2">
+                                    <span class="text-sm text-gray-500">USD</span>
+                                </div>
+                            </div>
+                            <div id="modalPriceError" class="hidden text-sm text-red-500 mt-1">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                <span>Price must be at least $0.99</span>
+                            </div>
+                        </div>
+                    </div>-->
+
+                    <!-- Action Buttons -->
+                    <!--<div class="flex items-center gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">-->
+                        <!-- View Mode Buttons -->
+                       <!-- <div id="viewModeButtons" class="flex items-center gap-4 w-full">
+                            <button onclick="ArtworkManager.deleteArtwork(this.dataset.artworkId)" class="flex-1 px-4 py-2 rounded-lg bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 font-medium hover:bg-red-200 dark:hover:bg-red-800/30 transition-all duration-300">
+                                Delete
+                            </button>
+                            <button onclick="ArtworkManager.startEditing()" class="flex-1 px-4 py-2 rounded-lg bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-medium hover:bg-blue-200 dark:hover:bg-blue-800/30 transition-all duration-300">
+                                Edit
+                            </button>
+                        </div>-->
+                        <!-- Edit Mode Buttons -->
+                       <!-- <div id="editModeButtons" class="hidden flex items-center gap-4 w-full">
+                            <button onclick="ArtworkManager.saveChanges()" class="flex-1 px-4 py-2 rounded-lg bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 font-medium hover:bg-green-200 dark:hover:bg-green-800/30 transition-all duration-300">
+                                Save
+                            </button>
+                            <button onclick="ArtworkManager.cancelEditing()" class="flex-1 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-900/20 text-gray-600 dark:text-gray-400 font-medium hover:bg-gray-200 dark:hover:bg-gray-800/30 transition-all duration-300">
+                                Cancel
+                            </button>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

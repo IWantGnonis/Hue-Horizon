@@ -1,0 +1,189 @@
+<!-- Profile Section -->
+<section id="profile" class="section hidden ml-[300px]">
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h2 class="text-3xl font-bold">Profile</h2>
+            <p class="text-gray-600 dark:text-gray-400">Manage your account settings</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Profile Info -->
+        <div class="lg:col-span-2 space-y-6">
+            <div class="dashboard-card rounded-xl p-6 border border-black dark:border-white">
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                    <i class="fas fa-user text-2xl"></i>
+                    Personal Information
+                </h3>
+                <form id="profileForm" class="space-y-6">
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium">Full Name</label>
+                        <input type="text" name="fullName" 
+                            placeholder="Your full name"
+                            class="w-full p-3 rounded-lg border-2 border-black dark:border-white bg-transparent focus:ring-2 focus:ring-blue-500 transition-all">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium">Bio</label>
+                        <textarea name="bio" rows="4"
+                            placeholder="Tell us about yourself..."
+                            class="w-full p-3 rounded-lg border-2 border-black dark:border-white bg-transparent focus:ring-2 focus:ring-blue-500 transition-all"></textarea>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium">Location</label>
+                        <input type="text" name="location"
+                            placeholder="City, Country"
+                            class="w-full p-3 rounded-lg border-2 border-black dark:border-white bg-transparent focus:ring-2 focus:ring-blue-500 transition-all">
+                    </div>
+
+                    <div class="pt-4 border-t border-black/10 dark:border-white/10">
+                        <button type="submit"
+                            class="w-full p-4 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+                            <i class="fas fa-save"></i>
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+    
+            <!-- Password Change -->
+            <div class="dashboard-card rounded-xl p-6 border border-black dark:border-white">
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                    <i class="fas fa-lock text-2xl"></i>
+                    Change Password
+                </h3>
+                <form id="passwordForm" class="space-y-6">
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium">Current Password</label>
+                        <div class="relative">
+                            <input type="password" id="currentPassword" name="currentPassword" data-validate="password"
+                                placeholder="Enter current password"
+                                class="w-full p-3 rounded-lg border-2 border-black dark:border-white bg-transparent focus:ring-2 focus:ring-blue-500 transition-all">
+                            <button type="button" class="password-toggle absolute right-3 top-1/2 -translate-y-1/2" data-target="currentPassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="error-message hidden text-sm text-red-500"></div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium">New Password</label>
+                        <div class="relative">
+                            <input type="password" id="newPassword" name="newPassword" data-validate="password"
+                                placeholder="Enter new password"
+                                class="w-full p-3 rounded-lg border-2 border-black dark:border-white bg-transparent focus:ring-2 focus:ring-blue-500 transition-all">
+                            <button type="button" class="password-toggle absolute right-3 top-1/2 -translate-y-1/2" data-target="newPassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="error-message hidden text-sm text-red-500"></div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium">Confirm New Password</label>
+                        <div class="relative">
+                            <input type="password" id="confirmPassword" name="confirmPassword" data-validate="match" data-match-target="newPassword"
+                                placeholder="Confirm new password"
+                                class="w-full p-3 rounded-lg border-2 border-black dark:border-white bg-transparent focus:ring-2 focus:ring-blue-500 transition-all">
+                            <button type="button" class="password-toggle absolute right-3 top-1/2 -translate-y-1/2" data-target="confirmPassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="error-message hidden text-sm text-red-500"></div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit"
+                            class="w-full p-4 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+                            <i class="fas fa-key"></i>
+                            Update Password
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Profile Picture & Stats -->
+        <div class="space-y-6">
+            <div class="dashboard-card rounded-xl p-6 border border-black dark:border-white">
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                    <i class="fas fa-camera text-2xl"></i>
+                    Profile Picture
+                </h3>
+                <div class="flex flex-col items-center">
+                    <div id="avatarDropzone" class="relative group mb-6">
+                        <img id="avatarPreview" src="/images/default-avatar.png" alt="Profile Picture"
+                            class="w-32 h-32 rounded-full object-cover border-4 border-black dark:border-white shadow-lg">
+                        <div class="absolute inset-0 rounded-full bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <label for="avatarInput" class="cursor-pointer p-3 bg-white/20 rounded-full hover:bg-white/30 transition-all">
+                                <i class="fas fa-camera text-white text-2xl"></i>
+                                <input type="file" id="avatarInput" name="avatar" accept="image/*" class="hidden">
+                            </label>
+                        </div>
+                        <div id="avatarDropOverlay" class="absolute inset-0 rounded-full bg-blue-500/70 hidden flex items-center justify-center">
+                            <i class="fas fa-cloud-upload-alt text-white text-3xl"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Click or drag & drop to change profile picture</p>
+                    <div id="avatarUploadStatus" class="text-xs text-blue-500 hidden">
+                        <i class="fas fa-spinner fa-spin mr-1"></i> Preparing image...
+                    </div>
+                </div>
+            </div>
+              <!-- Account Statistics -->
+              <div class="dashboard-card rounded-xl p-6 border border-black dark:border-white">
+                  <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                      <i class="fas fa-chart-bar text-2xl"></i>
+                      Account Statistics
+                  </h3>
+                  <div class="space-y-4">
+                      <div class="flex items-center justify-between">
+                          <span class="text-gray-500">Member Since</span>
+                          <span id="memberSince" class="font-medium">January 2024</span>
+                      </div>
+                      <div class="flex items-center justify-between">
+                          <span class="text-gray-500">Total Artworks</span>
+                          <span id="totalArtworks" class="font-medium">12</span>
+                      </div>
+                      <div class="flex items-center justify-between">
+                          <span class="text-gray-500">Total Views</span>
+                          <span id="totalViews" class="font-medium">1,234</span>
+                      </div>
+                      <div class="flex items-center justify-between">
+                          <span class="text-gray-500">Total Favorites</span>
+                          <span id="totalFavorites" class="font-medium">56</span>
+                      </div>
+                  </div>
+              </div>
+            <div class="dashboard-card rounded-xl p-6 border border-black dark:border-white">
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                    <i class="fas fa-cog text-2xl"></i>
+                    Account Settings
+                </h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="font-medium">Email Notifications</p>
+                            <p class="text-sm text-gray-500">Receive updates about your artworks</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-500"></div>
+                        </label>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="font-medium">Public Profile</p>
+                            <p class="text-sm text-gray-500">Allow others to view your profile</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-500"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> 

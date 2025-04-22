@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Gallery - Hue Horizon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        body {
+            background: #0a0a0a;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .mood-selector {
+            display: flex;
+            gap: 20px;
+            padding: 40px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+        }
+
+        .mood-selector::-webkit-scrollbar {
+            display: none;
+        }
+
+        .mood-card {
+            flex: 0 0 200px;
+            height: 200px;
+            border-radius: 15px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            opacity: 0.6; /* Default opacity */
+            animation: wave 1.5s infinite ease-in-out; /* Wave animation */
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .mood-card.active {
+            border: 2px solid #fff;
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+            opacity: 1; /* Full opacity for active card */
+        }
+
+        .mood-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, rgba(0,0,0,0.7), transparent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .artwork-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 40px;
+        }
+
+        .artwork-card {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+            border-radius: 10px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .artwork-card:hover {
+            transform: scale(1.03);
+        }
+
+        .artwork-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .artwork-card:hover .artwork-info {
+            transform: translateY(0);
+        }
+
+        .mood-peaceful { background: linear-gradient(45deg, #4facfe, #00f2fe); }
+        .mood-energetic { background: linear-gradient(45deg, #ff416c, #ff4b2b); }
+        .mood-melancholic { background: linear-gradient(45deg, #8e2de2, #4a00e0); }
+        .mood-romantic { background: linear-gradient(45deg, #ff758c, #ff7eb3); }
+        .mood-mysterious { background: linear-gradient(45deg, #2c3e50, #3498db); }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="p-6 border-b border-gray-800">
+        <h1 class="text-3xl font-bold text-center">How are you feeling today?</h1>
+        <p class="text-center text-gray-400 mt-2">Let us recommend artworks that match your mood</p>
+    </header>
+
+    <!-- Mood Selector -->
+    <div class="mood-selector">
+        <div class="mood-card mood-peaceful" style="opacity: 0.3; animation-delay: 0s;">
+            <div class="mood-overlay">Peaceful</div>
+        </div>
+        <div class="mood-card mood-energetic" style="opacity: 0.6; animation-delay: 0.1s;">
+            <div class="mood-overlay">Energetic</div>
+        </div>
+        <div class="mood-card mood-melancholic" style="opacity: 1; animation-delay: 0.2s;">
+            <div class="mood-overlay">Melancholic</div>
+        </div>
+        <div class="mood-card mood-romantic" style="opacity: 0.6; animation-delay: 0.3s;">
+            <div class="mood-overlay">Romantic</div>
+        </div>
+        <div class="mood-card mood-mysterious" style="opacity: 0.3; animation-delay: 0.4s;">
+            <div class="mood-overlay">Mysterious</div>
+        </div>
+    </div>
+
+    <!-- Artwork Recommendations -->
+    <div class="artwork-grid" id="artworkGrid">
+        <!-- Artwork cards will be dynamically populated -->
+        <div class="artwork-card">
+            <img src="https://picsum.photos/300/300?random=1" alt="Serene Lake" class="w-full h-full object-cover">
+            <div class="artwork-info">
+                <h3 class="text-xl font-bold">Serene Lake</h3>
+                <p class="text-sm opacity-70">by Jane Doe</p>
+            </div>
+        </div>
+        <div class="artwork-card">
+            <img src="https://picsum.photos/300/300?random=2" alt="Morning Mist" class="w-full h-full object-cover">
+            <div class="artwork-info">
+                <h3 class="text-xl font-bold">Morning Mist</h3>
+                <p class="text-sm opacity-70">by John Smith</p>
+            </div>
+        </div>
+        <div class="artwork-card">
+            <img src="https://picsum.photos/300/300?random=3" alt="Urban Motion" class="w-full h-full object-cover">
+            <div class="artwork-info">
+                <h3 class="text-xl font-bold">Urban Motion</h3>
+                <p class="text-sm opacity-70">by Mike Ross</p>
+            </div>
+        </div>
+        <div class="artwork-card">
+            <img src="https://picsum.photos/300/300?random=4" alt="Color Burst" class="w-full h-full object-cover">
+            <div class="artwork-info">
+                <h3 class="text-xl font-bold">Color Burst</h3>
+                <p class="text-sm opacity-70">by Sarah Lee</p>
+            </div>
+        </div>
+        <!-- Add more artwork cards as needed -->
+    </div>
+
+    <script>
+        // Mood selection handling
+        const moodCards = document.querySelectorAll('.mood-card');
+        const artworkGrid = document.getElementById('artworkGrid');
+
+        // Sample artwork data (replace with your actual data)
+        const artworksByMood = {
+            peaceful: [
+                { image: 'https://picsum.photos/300/300?random=1', title: 'Serene Lake', artist: 'Jane Doe' },
+                { image: 'https://picsum.photos/300/300?random=2', title: 'Morning Mist', artist: 'John Smith' },
+                // Add more artworks
+            ],
+            energetic: [
+                { image: 'https://picsum.photos/300/300?random=3', title: 'Urban Motion', artist: 'Mike Ross' },
+                { image: 'https://picsum.photos/300/300?random=4', title: 'Color Burst', artist: 'Sarah Lee' },
+                // Add more artworks
+            ],
+            // Add more moods
+        };
+
+        moodCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Remove active class from all cards
+                moodCards.forEach(c => {
+                    c.classList.remove('active');
+                    c.style.opacity = 0.6; // Set opacity for inactive cards
+                });
+                // Add active class to clicked card
+                card.classList.add('active');
+                card.style.opacity = 1; // Set full opacity for active card
+                
+                // Update artwork recommendations
+                updateArtworks(card.textContent.toLowerCase().trim());
+            });
+        });
+
+        function updateArtworks(mood) {
+            // Clear current artworks
+            artworkGrid.innerHTML = '';
+            
+            // Add new artwork cards with animation
+            artworksByMood[mood]?.forEach((artwork, index) => {
+                const card = createArtworkCard(artwork);
+                artworkGrid.appendChild(card);
+                
+                // Animate card entry
+                gsap.from(card, {
+                    duration: 0.6,
+                    y: 50,
+                    opacity: 0,
+                    delay: index * 0.1,
+                    ease: "power2.out"
+                });
+            });
+        }
+
+        function createArtworkCard(artwork) {
+            const card = document.createElement('div');
+            card.className = 'artwork-card';
+            card.innerHTML = `
+                <img src="${artwork.image}" alt="${artwork.title}" class="w-full h-full object-cover">
+                <div class="artwork-info">
+                    <h3 class="text-xl font-bold">${artwork.title}</h3>
+                    <p class="text-sm opacity-70">by ${artwork.artist}</p>
+                </div>
+            `;
+            return card;
+        }
+
+        // Initial animation
+        gsap.from(".mood-card", {
+            duration: 1,
+            y: 30,
+            opacity: 0,
+            stagger: 0.1,
+            ease: "power2.out"
+        });
+    </script>
+</body>
+</html>

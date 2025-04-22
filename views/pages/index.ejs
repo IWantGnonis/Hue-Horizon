@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Hue Horizon - Art Gallery</title>
+    <!-- ✅ Locomotive Scroll CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/locomotive-scroll/4.1.3/locomotive-scroll.min.css" />
+    
+    <!-- ✅ GSAP and ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js"></script>
+
+    <!-- ✅ Locomotive Scroll JS -->
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.3/dist/locomotive-scroll.min.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @font-face {
+            font-family: canopee ;
+            src: url(/fonts/canopee-regular.otf);
+        }
+
+        .h-screen{
+            font-family : 'Satoshi', sans-serif;
+
+        }
+
+        .exArt{
+            font-family: 'Satoshi', sans-serif;
+        }
+
+
+
+html,body{
+    font-family:"Neu Montreal";
+}
+
+
+
+
+.btn {
+        position: relative;
+        display: inline-flex;
+        padding: 30px 80px;
+        /* color: white; */ /* Removed conflicting color */
+        text-decoration: none;
+        font-size: 1rem;
+        letter-spacing: 1px;
+        border-radius: 5px;
+        overflow: hidden;
+        z-index: 1;
+        /* mix-blend-mode: difference; */ /* Removed conflicting blend mode */
+      }
+
+      .btn::before {
+        position: absolute;
+        content: "";
+        top: var(--y);
+        left: var(--x);
+        transform: translate(-50%, -50%);
+        width: 0;
+        height: 0;
+        background: #FFF; /* Keep background white for difference effect */
+        border-radius: 50%;
+        transition: 0.5s;
+      }
+
+      .btn:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+
+      .btn span {
+        position: relative;
+        z-index: 1;
+        /* color: white; */ /* Color is handled by child element */
+        mix-blend-mode: difference; /* Apply difference blend mode */
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+.section1 {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 10vh;
+            overflow: hidden;
+        }
+                
+        .section2 {
+            position: relative;
+            height: 100vh;
+        }
+
+
+
+
+
+
+
+
+
+
+
+    </style>
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@301&display=swap" rel="stylesheet">
+</head>
+
+<body class=" text-gray-900 p-0 m-0 overflow-x-hidden">
+
+
+    <!-- Header -->
+    <%- include('../partials/navbar.ejs') %>
+    
+    <div class="main">
+
+
+
+
+        
+        <!-- Hero Section -->
+        <section id="hero" class="section1 scroller bg-no-repeat bg-white bg-center bg-cover h-screen w-screen flex flex-col justify-center items-center ">
+            <div class="hero flex flex-col justify-center items-center absolute z-10">
+                <div class="overflow-hidden pr-[250px]">
+                    <h2 class="hro-txt text-8xl font-light" id="hero-text">EXPLORE</h2>
+                </div>
+                <div class="overflow-hidden pl-[250px]">
+                    <h2 class="hro-txt text-8xl font-light" id="hero-text">COLLECT</h2>
+                </div>
+                <div class="overflow-hidden pr-[300px]">
+                    <h2 class="hro-txt text-8xl font-light" id="hero-text">AUCTION</h2>
+                </div>
+                <div class="overflow-hidden pl-[280px]">
+                    <h2 class="hro-txt text-8xl font-light" id="hero-text">EXQUISITE ART</h2>
+                </div>
+                <p class="text-xl  text-white" id="hero-subtext">
+                    <span class="minhro">Discover</span>
+                    <span class="minhro">a</span> 
+                    <span class="minhro">world</span> 
+                    <span class="minhro">of</span> 
+                    <span class="minhro">artistic</span>
+                    <span class="minhro">expression</span>
+                </p>
+            </div>
+                
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Etruskischer_Meister_002.jpg" class="explore-1 h-72 relative bottom-[-660px] right-[500px] " id="" alt="">
+                <img src="https://www.mayfairgallery.com/media/wysiwyg/Raphael_School_of_Athens.jpg" class="explore-1 h-72 relative bottom-[-840px] left-[500px]" id="" alt="">
+                <img src="https://soulspaze.com/wp-content/uploads/2021/08/Hand-Painted-3D-Oil-Painting-1-2.jpg" class="explore-1 h-72 relative bottom-[-1000px] right-[500px]" id="" alt="">
+                <img src="https://smarthistory.org/wp-content/uploads/2024/06/Gustave_Courbet_027-scaled.jpg" class="explore-1 h-72 relative bottom-[-1150px] left-[500px]" id="" alt="">
+                <img src="https://picsum.photos/400/300?random=5" class="explore-1 h-80 relative bottom-[-1280px] right-[500px]" id="" alt="">
+                <img src="https://picsum.photos/400/300?random=6" class="explore-1 h-72 relative bottom-[-1400px] left-[500px]" id="" alt="">
+                
+        </section>
+        
+        
+        <!-- Marketplace Section -->
+        <section id="page-2" class="section2 h-[200vh] items-center bg-black justify-center overflow-hidden" style="background: url('/Images/classical-10.jpg') no-repeat center center/cover;">
+            <div>
+                <h1 class="text-amber-100 text-[150px] pl-10 m-0">YOUR ART,</h1>
+                <h1 class="text-amber-100 text-[150px] pl-10 relative top-[-60px]">UNCHAINED.</h1>
+            </div>
+
+            <div class="relative left-[1350px] top-[-400px] text-left">
+                <h1 class="text-amber-100 text-[20px]">ART STYLE :</h1>
+                <h1 class="text-amber-100 text-[20px] pl-8">FRESCO</h1>
+            </div>
+
+            <div class="w-[300px] text-amber-50 h-[500px] overflow-hidden relative left-[60px]">
+                <p class="text-sm">You've poured your heart into every brushstroke, every line, every sculpted curve. But art isn't meant to be locked away—it's meant to be seen, felt, and collected by those who truly understand it. <br>
+                    No limits. No gatekeepers. Just your pure artistic vision. <br> Showcase your work in a space designed for creators, not just commerce. <br>
+                    Let collectors discover not just your art, but your story.
+                </p>
+            </div>
+
+            <div class="btn h-[200px] w-[200px] rounded-full border-2 border-amber-100 relative left-[1260px] top-[-450px] flex items-center justify-center">
+                <span><a href="/marketplace" class="text-amber-100 text-center">VISIT <br> MARKETPLACE</a></span>
+            </div>
+
+            <div class="h-[200px] w-[300px] relative top-[-330px] left-[1170px]">
+                <p class="text-amber-100 text-right text-sm">Your art is valuable, not just in sentiment but in worth. Set your price. Auction it. Let collectors bid on the uniqueness of your vision. <br>
+                    You decide how your art is sold. <br> Global reach. Infinite possibilities. <br>Your signature remains yours always.</p>
+            </div>
+
+            <div class="btn h-[200px] w-[200px] rounded-full border-2 border-amber-100 relative flex items-center justify-center top-[-110px] left-[50px]">
+                <span><a href="/auction" class="text-amber-100 text-center">VISIT <br> AUCTION</a></span>
+            </div>
+
+            <div class="text-right mr-10 relative top-[-400px]">
+                <h1 class="text-amber-100 text-[140px]">ART WITH A </h1>
+                <h1 class="text-amber-100 text-[140px] relative top-[-80px]">PURPOSE</h1>
+            </div>
+        </section>
+
+        <!-- Mood-Based Recommendation -->
+        <section class="section3 h-screen flex items-center bg-amber-100" id="mood">
+            <div class="h-screen bg-orange-200 w-[1200px] rounded-br-[400px] overflow-hidden bg-cover" style="background-image: url('/Images/classical-7.jpg');">
+                <div class="ml-10 mt-10">
+                    <h1 class="text-yellow-200 text-[60px] font-semibold">BEHIND EVERY PIECE,</h1>
+                    <h1  class="text-yellow-200 text-[60px] font-semibold">THERE'S A STORY.</h1>
+                    <h1 class="text-yellow-200 text-[60px] font-semibold">SHARE YOURS.</h1>
+                </div>
+            </div>
+            <div class="h-screen bg-white w-[400px] flex flex-col items-center rounded-bl-full p-8">
+                <div>
+                    <h1 class="text-3xl font-semibold text-left">You Create, We Amplify</h1>
+                    <p class="text-left font-semibold mt-[10px]">Your art deserves more than just a frame—it deserves a story, an audience, a place where it breathes beyond the canvas. It carries the echoes of your passion, the weight of your emotions, and the untold narratives only you can create. This is not just a gallery; it's a living space for creativity, where each brushstroke sparks a conversation, and every collector becomes part of your journey. Here, your work finds its voice, its admirers, and its future—because true art is not just seen; it is felt, remembered, and passed on.</p>
+                </div>
+
+            </div>
+        </section>
+        
+        <!-- Auction Section -->
+        <section class="section4 h-screen flex items-center bg-amber-100" id="auction">
+            <div class="h-screen bg-yellow-200 w-[1200px] rounded-tr-[400px] overflow-hidden bg-cover" style="background-image: url('/Images/classical-8.jpg');">
+            
+            </div>
+            <div class="h-screen bg-white w-[400px] rounded-tl-full overflow-hidden p-8">
+                <div class="relative top-[400px]">
+                    <h1 class="text-3xl font-semibold text-left">Your Art, Unforgettable</h1>
+                    <p class="text-left font-semibold mt-[10px]">You didn't create just to be unseen. You didn't dream just to be overlooked. Every stroke, every shade, every idea you bring to life holds meaning—waiting to be discovered, to evoke emotion, to leave an imprint on someone's soul. This is where your art finds its home, where passion meets opportunity, and where creativity is not just displayed but celebrated. Here, your vision reaches beyond borders, your work finds its true admirers, and your artistry shapes the way the world sees, feels, and connects.</p>
+                </div>
+            </div>
+        </section>
+    
+    
+        <!-- Footer -->
+        <%- include('../partials/footer.ejs') %>
+       
+
+    <!-- GSAP Animations -->
+ <script src="/js/script.js"></script>
+ <script>
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const ease = "power4.inOut";
+
+    document.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", (event) => {
+            event.preventDefault();
+            const href = link.getAttribute("href");
+
+            if(href && !href.startsWith("#")  && href !== window.location.pathname){
+                animateTransition().then(() => {
+                    window.location.href = href;
+            });
+        }
+
+        });
+    });
+
+
+    revealTransition().then(() => {
+    gsap.set(".block", {visibility:"hidden"})
+    });
+
+
+    function revealTransition(){
+    return new Promise((resolve) => {
+        gsap.set(".block", { scaleY: 1});
+        gsap.to(".block", {
+            scaleY: 0,
+            duration:1,
+            stagger:{
+                each:0.1,
+                from:"start",
+                grid:"auto",
+                axis:"x",
+            },
+            ease:ease,
+            onComplete:resolve,
+        });
+    });
+}
+    function animateTransition(){
+    return new Promise((resolve) => {
+        gsap.set(".block", { visibility: "visible", scaleY: 0});
+        gsap.to(".block", {
+            scaleY: 1,
+            duration:1,
+            stagger:{
+                each:0.1,
+                from:"start",
+                grid:[2, 5],
+            },
+            ease:ease,
+            onComplete:resolve,
+        });
+    });
+}
+            
+    
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+gsap.to(".explore-1",{
+            y:-2500,
+            scrollTrigger:{
+                trigger:".scroller",
+                scroller:"body",
+
+                start:"top 0%",
+                end:"top -100%",
+                scrub:4,
+                pin:true,
+                ease:"power2.out"
+            }
+        })
+
+
+
+
+
+ 
+document.addEventListener('DOMContentLoaded', () => {
+            const section1 = document.querySelector('.section1');
+            // const imageContainer = document.querySelector('.section1 .image-container'); // Assuming these might not exist
+            // const image = document.querySelector('.section1 img'); // Assuming these might not exist
+            // const section2 = document.querySelector('.section2 img'); // Assuming this might not exist
+            if (!section1) return; // Exit if section1 not found
+
+            const animationEndScroll = window.innerHeight; // Animate over the first viewport height
+
+            // Scroll event listener for animation
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                // const scrollMax = document.body.scrollHeight - window.innerHeight; // Not needed for section1 fade
+                // const scrollRatio = scrollY / scrollMax; // Not needed for section1 fade
+                
+                // Calculate progress of scrolling through the first viewport height
+                const progress = Math.min(1, Math.max(0, scrollY / animationEndScroll));
+
+                // Rotate the image based on scroll position (Keep commented if elements don't exist)
+                // const rotation = progress * 180; 
+                // const scale = 1 + (progress * 0.5);
+                // imageContainer.style.transform = `rotateY(${rotation}deg) scale(${scale})`;
+                 
+                // Fade out section1 based on progress
+                section1.style.opacity = 1 - progress;
+
+                // Add scale or other transforms if desired, driven by progress
+                const scaleTransform = 1 - (progress * 0.2); // Example: scale down from 1 to 0.8
+                section1.style.transform = `scale(${scaleTransform})`; // Apply only scale for now
+
+                // Parallax effect for section2 (Keep commented if element doesn't exist)
+                // section2.style.transform = `translateY(${-100 * progress}px)`; // Drive parallax by progress too
+
+                // Hide section1 completely when its animation is done
+                if (progress >= 1) {
+                    section1.style.pointerEvents = 'none'; 
+                    section1.style.visibility = 'hidden';
+                } else {
+                    section1.style.pointerEvents = 'auto';
+                    section1.style.visibility = 'visible';
+                }
+            });
+        }); 
+
+
+
+
+
+
+
+
+const btns = document.querySelectorAll(".btn");
+
+btns.forEach(btn => {
+  btn.onmousemove = function (e) {
+    const rect = btn.getBoundingClientRect(); // Get button's position and size
+    let x = e.clientX - rect.left; // Mouse X relative to button's left edge
+    let y = e.clientY - rect.top;  // Mouse Y relative to button's top edge
+    btn.style.setProperty("--x", x + "px");
+    btn.style.setProperty("--y", y + "px");
+  };
+});
+
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const toggleButton = document.querySelector(".burger");
+    let isOpen = false;
+
+    gsap.set(".menu-item p", { y: 225 });
+
+    const timeline = gsap.timeline({ paused: true });
+
+    timeline.to(".overlay", {
+      duration: 1.5,
+      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+      ease: "power4.out",
+    });
+
+    timeline.to(".menu-item p", {
+      duration: 1.5,
+      y: 0,
+      stagger: 0.2,
+      ease: "power4.out",
+    }, "-=1");
+
+    // Find the header element
+    const header = document.querySelector(".header"); 
+
+    toggleButton.addEventListener("click", function () {
+      this.classList.toggle("active");
+      header.classList.toggle("menu-open"); // Toggle class on header
+      if (isOpen) {
+        timeline.timeScale(2).reverse(); // Reverse animation faster (e.g., 2x speed)
+      } else {
+        timeline.timeScale(1).play(); // Play forward at normal speed
+      }
+      isOpen = !isOpen;
+    });
+});
+
+
+gsap.registerPlugin(ScrollTrigger);
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Fix incorrect template literal usage
+    const contentHolderHeight = document.querySelector(".artwork").offsetHeight;
+    const imgHolderHeight = window.innerHeight;
+    const additionalScrollHeight = window.innerHeight;
+
+    const totalBodyHeight = contentHolderHeight + imgHolderHeight + additionalScrollHeight;
+    document.body.style.height = `${totalBodyHeight}px`; // ✅ Fix: Use backticks
+
+    // Fix ScrollTrigger animation logic
+    ScrollTrigger.create({
+        trigger: ".artwork",
+        start: "-0.1% top",
+        end: "bottom bottom",
+        onEnter: () => {
+            gsap.set(".artwork", { position: 'absolute', top: '195%' });
+        },
+        onLeaveBack: () => {
+            gsap.set(".artwork", { position: 'fixed', top: '0' });
+        }
+    });
+
+    // Fix GSAP animation for letters
+    gsap.to(".header .letters:first-child", {
+        x: () => -innerWidth * 3, // Move left
+        scale: 10,
+        ease: "power2.inOut",
+        scrollTrigger: {
+            start: "top top",
+            end: "+=200%",
+            scrub:3
+        }
+    });
+
+    gsap.to(".header .letters:last-child", { // ✅ Fix: Use last-child
+        x: () => innerWidth * 3, // Move right
+        scale: 10,
+        ease: "power2.inOut",
+        scrollTrigger: {
+            start: "top top",
+            end: "+=200%",
+            scrub: 3
+        }
+    });
+});
+
+gsap.to(".img-holder", {
+    rotation:0,
+    clipPath:'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+    ease:"power2.out",
+    scrollTrigger:{
+        start:"top top",
+        end:`+=200%`,
+        scrub:3
+    }
+});
+
+gsap.to(".img-holder img", {
+    scale:1,
+    ease:"power2.out",
+    scrollTrigger:{
+        start:"top top",
+        end:`+=200%`,
+        scrub:3
+    }
+});
+
+
+
+
+
+
+ </script>
+</body>
+</html>

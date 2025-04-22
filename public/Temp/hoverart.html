@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Art Showcase</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        .art-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            z-index: 2;
+        }
+        .main-art {
+            position: relative;
+            z-index: 3;
+        }
+        .behind-art {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+        .surrounding-art {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 4;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-900">
+    <div class="relative">
+        <!-- Behind Artworks -->
+        <img src="https://images.unsplash.com/photo-1567306301408-9b74779a11af?w=100" class="behind-art" style="top: 10px; left: -30px;">
+        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=100" class="behind-art" style="top: 30px; right: -30px;">
+        
+        <div class="art-container cursor-pointer">
+            <img src="https://images.unsplash.com/photo-1522444195799-478538b28823?w=200" alt="Main Art" class="w-full h-full object-cover rounded-lg main-art">
+            
+            <!-- Surrounding Artworks -->
+            <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=80" class="surrounding-art" style="top: -50px; left: -50px;">
+            <img src="https://images.unsplash.com/photo-1511765224389-37f0e77cf0eb?w=80" class="surrounding-art" style="top: -40px; right: -30px;">
+            <img src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?w=80" class="surrounding-art" style="bottom: -30px; left: -40px;">
+            <img src="https://images.unsplash.com/photo-1603988363609-3227cbd64c97?w=80" class="surrounding-art" style="bottom: -50px; right: -50px;">
+        </div>
+    </div>
+    
+    <script>
+        const artContainer = document.querySelector('.art-container');
+        const surroundingArts = document.querySelectorAll('.surrounding-art');
+        const behindArts = document.querySelectorAll('.behind-art');
+
+        artContainer.addEventListener('mouseenter', () => {
+            surroundingArts.forEach(img => {
+                let randomX = (Math.random() * 40) - 20;
+                let randomY = (Math.random() * 40) - 20;
+                gsap.to(img, { opacity: 1, scale: 1.2, x: randomX, y: randomY, duration: 0.5, ease: "power2.out" });
+            });
+            gsap.to(behindArts, { opacity: 1, duration: 0.5, ease: "power2.out" });
+        });
+
+        artContainer.addEventListener('mouseleave', () => {
+            gsap.to(surroundingArts, { opacity: 0, scale: 1, x: 0, y: 0, duration: 0.3, ease: "power2.in" });
+            gsap.to(behindArts, { opacity: 0, duration: 0.3, ease: "power2.in" });
+        });
+    </script>
+</body>
+</html>

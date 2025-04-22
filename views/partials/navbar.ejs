@@ -1,0 +1,391 @@
+<head>
+
+  <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.3/dist/locomotive-scroll.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js"></script>
+</head>
+
+<style>
+ .overlay{
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100vw;
+     height: 100vh;
+     display: flex;
+     background: #000;
+     clip-path: polygon(0 0,100% 0,100% 0,0 0);
+     will-change: transform;
+     z-index: 10; /* Ensure it's above other elements */
+   }
+
+
+
+ .overlay-menu {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100vw;
+   height: 100vh;
+   display: flex;
+   gap: 1em;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   color: #cdc6be;
+ }
+
+ .menu-item {
+   cursor: pointer;
+   cursor:pointer;
+   clip-path: polygon(0 0, 100% 0, 100% 100%,0% 100%);
+   font-family: canopee;
+ }
+
+ .menu-item p {
+   text-align: center;
+   font-size: 10vw;
+   line-height: 80%;
+   transition: letter-spacing 0.3s;
+ }
+
+ .menu-item p:hover {
+   letter-spacing: 0.075em;
+ }
+
+
+
+
+ .active.burger::before {
+   /* Rotate the top bar 45 degrees and move it down */
+   transform: translateY(5px) rotate(45deg); 
+ }
+
+ .active.burger::after {
+    /* Rotate the bottom bar -45 degrees and move it up */
+   transform: translateY(-5px) rotate(-45deg);
+ }
+
+
+
+
+.header {
+   position: fixed;
+   display: flex;
+   width: 100%;
+   justify-content: space-between;
+   align-items: center;
+   padding: 10px;
+   box-sizing: border-box;
+   cursor: pointer;
+   mix-blend-mode: difference;
+   z-index: 11;
+   transition: all 0.3s ease;
+}
+
+.header.menu-open {
+   mix-blend-mode: normal;
+   z-index: 11;
+}
+
+.header .folio {
+   font-family: 'Satoshi', sans-serif;
+   font-size: 16px;
+   color: white;
+   margin-left: 20px;
+}
+
+.header .title {
+
+   position: absolute;
+   left: 50%;
+   transform: translateX(-50%);
+   font-family: canopee;
+   font-size: 40px;
+   color: white;
+}
+
+.header .burger {
+   position: relative;
+   display: flex;
+   gap: 8px;
+   flex-direction: column;
+   padding: 30px;
+   pointer-events: none;
+   margin-left: auto;
+}
+.header .burger::before,
+.header .burger::after {
+   display: block;
+   content: "";
+   width: 30px;
+   height: 2px;
+   mix-blend-mode: difference;
+   background-color: white;
+   transition: transform 0.3s ease; /* Add transition for smooth transform */
+}
+
+.header .bounds {
+   position: absolute;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+   pointer-events: all;
+   
+}
+
+
+.header .bounds:hover {
+   transform: scale(3);
+}
+
+
+.cursorContainer {
+ position: relative;
+}
+
+.cursor {
+ z-index:100;
+
+ position: fixed;
+ background-color: white;
+ border-radius: 50%;
+ pointer-events: none;
+ width: 15px;
+ height: 15px;
+ mix-blend-mode: difference;
+
+}
+
+
+
+
+
+       .transition{
+       position:fixed;
+       top:0;
+       left:0;
+       width:100vw;
+       height:100vh;
+       display:flex;
+       flex-direction:column;
+       z-index:50;
+       pointer-events:none;   
+   }
+   .transition-row{
+       flex:1;
+       display:flex;
+   }
+   .transition-row.row-1 .block{
+       transform-origin:top;
+   }
+   .transition-row.row-2 .block{
+       transform-origin:bottom;
+   }
+   .block{
+       flex:1;
+       background-color:white;
+       transform:scaleY(1);
+       will-change:tranform;
+   }
+
+
+</style>
+           
+
+           
+         <div class="transition">
+           <div class="transition-row row-1">
+               <div class="block"></div>
+               <div class="block"></div>
+               <div class="block"></div>
+               <div class="block"></div>
+               <div class="block"></div>
+           </div>
+           <div class="transition-row row-2">
+               <div class="block"></div>
+               <div class="block"></div>
+               <div class="block"></div>
+               <div class="block"></div>
+               <div class="block"></div>
+           </div>
+       </div>
+
+
+
+           <div class="cursorContainer">
+             <div class="cursor"></div>
+           </div>
+           
+           
+           <div class="header">
+            <a href="/dashboard" class="ml-5 w-8 h-8 rounded-full overflow-hidden border border-white/50 flex items-center justify-center" title="View Profile">
+                <img id="header-pfp" 
+                     src=""
+                     alt="Profile Picture" 
+                     class="w-full h-full object-cover">
+            </a>
+             <div class="title">HUE HORIZON</div>
+             <div class="burger">
+                 <div class="bounds"></div>
+             </div>
+         </div>
+ 
+       <div class="overlay">
+         <div class="overlay-menu">
+           <div class="menu-item">
+             <p id="active"><a href="/home">Home</a></p>
+           </div>
+           <div class="menu-item">
+             <p><a href="/gallery">Gallery</a></p>
+           </div>
+           <div class="menu-item">
+             <p><a href="/auction">Auction</a></p>
+           </div>
+           <div class="menu-item">
+             <p><a href="/marketplace">MarketPlace</a></p>
+           </div>
+         </div>
+       </div>
+
+
+<script src="/js/utils/stickycursor.js"></script>
+       
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+   const ease = "power4.inOut";
+   const cursor = document.querySelector('.cursor');
+   const header = document.querySelector('.header');
+   const burger = document.querySelector('.burger');
+   const overlay = document.querySelector('.overlay');
+   const menuItems = document.querySelectorAll('.menu-item p');
+   let isOpen = false;
+
+   const timeline = gsap.timeline({ paused: true });
+
+   timeline.to(overlay, {
+       clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+       duration: 1.2,
+       ease: ease
+   })
+   .from(menuItems, {
+       y: 100,
+       opacity: 0,
+       stagger: 0.1,
+       duration: 0.8,
+       ease: ease
+   }, "-=0.8");
+
+   burger.addEventListener('click', () => {
+       burger.classList.toggle('active');
+       header.classList.toggle('menu-open');
+       
+       if (isOpen) {
+           timeline.timeScale(2).reverse();
+       } else {
+           timeline.timeScale(1).play();
+       }
+       isOpen = !isOpen;
+   });
+
+   document.querySelectorAll("a").forEach((link) => {
+       link.addEventListener("click", (event) => {
+           event.preventDefault();
+           const href = link.getAttribute("href");
+
+           if(href && !href.startsWith("#") && href !== window.location.pathname){
+               animateTransition().then(() => {
+                   window.location.href = href;
+               });
+           }
+       });
+   });
+
+   revealTransition().then(() => {
+       gsap.set(".block", {visibility:"hidden"});
+   });
+
+   function revealTransition(){
+       return new Promise((resolve) => {
+           gsap.set(".block", { scaleY: 1});
+           gsap.to(".block", {
+               scaleY: 0,
+               duration: 1,
+               stagger:{
+                   each: 0.1,
+                   from: "start",
+                   grid: "auto",
+                   axis: "x",
+               },
+               ease: ease,
+               onComplete: resolve,
+           });
+       });
+   }
+
+   function animateTransition(){
+       return new Promise((resolve) => {
+           gsap.set(".block", { visibility: "visible", scaleY: 0});
+           gsap.to(".block", {
+               scaleY: 1,
+               duration: 1,
+               stagger:{
+                   each: 0.1,
+                   from: "start",
+                   grid: [2, 5],
+               },
+               ease: ease,
+               onComplete: resolve,
+           });
+       });
+   }
+});
+</script>
+
+<!-- Add script to fetch and set PFP -->
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+    const pfpElement = document.getElementById('header-pfp');
+    const defaultAvatarUrl = '/Images/default-avatar.png'; // Define default path here
+
+    if (!pfpElement) return; // Exit if element somehow doesn't exist
+
+    // Set default avatar initially to prevent broken image icon
+    pfpElement.src = defaultAvatarUrl;
+
+    try {
+        const response = await fetch('/api/user/profile', {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' },
+            credentials: 'include' // Necessary if auth relies on cookies
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success && data.user && data.user.avatar_url) {
+                pfpElement.src = data.user.avatar_url;
+            } else {
+                // User data fetched but no specific avatar_url found, keep default
+                console.log('User profile loaded, but no avatar_url found. Using default.');
+                pfpElement.src = defaultAvatarUrl; 
+            }
+        } else {
+            console.error('Failed to fetch user profile for navbar PFP:', response.status);
+            // Keep default on fetch error
+            pfpElement.src = defaultAvatarUrl; 
+        }
+    } catch (error) {
+        console.error('Error fetching user profile for navbar PFP:', error);
+        // Keep default on network/other errors
+        pfpElement.src = defaultAvatarUrl; 
+    }
+    
+    // Add an onerror handler as a final safety net
+    pfpElement.onerror = function() {
+        console.warn(`Failed to load image: ${this.src}. Falling back to default avatar.`);
+        this.onerror = null; // Prevent potential infinite loop if default also fails
+        this.src = defaultAvatarUrl;
+    };
+});
+</script>

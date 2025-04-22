@@ -1,0 +1,204 @@
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+
+@layer base {
+    :root {
+        --primary: #8A2BE2;
+        --background: #0a0a0a;
+        --surface: #1a1a1a;
+        --border: #333;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: var(--background);
+        color: white;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        margin: 0;
+    }
+
+    button {
+        cursor: pointer;
+    }
+}
+
+@layer components {
+    .social-btn {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 0.5rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .social-btn:hover {
+        background: #222;
+        border-color: var(--primary);
+    }
+
+    .social-btn i {
+        font-size: 1.25rem;
+        color: #888;
+    }
+
+    .back-button {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0.5rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+        background: #222;
+        border-color: var(--primary);
+    }
+
+    input {
+        width: 100%;
+        background-color: var(--surface);
+        border: 1px solid var(--border);
+        color: white;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.2);
+    }
+
+    input::placeholder {
+        color: #666;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-dark text-light min-h-screen flex items-center justify-center overflow-hidden;
+  }
+}
+
+@layer components {
+  .logo-container {
+    @apply flex items-center mb-8 animate-slide-down;
+  }
+  
+  .logo {
+    @apply w-16 h-16 mr-4 bg-[#222] rounded-full overflow-hidden flex items-center justify-center shadow-[0_0_20px_rgba(138,43,226,0.5)] transition-all duration-500;
+  }
+  
+  .logo:hover {
+    @apply transform rotate-[360deg] scale-110 shadow-[0_0_30px_rgba(138,43,226,0.8)];
+  }
+  
+  .logo-text {
+    @apply text-4xl font-bold -tracking-wide relative;
+  }
+  
+  .logo-text::after {
+    content: '';
+    @apply absolute bottom-[-5px] left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-500;
+  }
+  
+  .logo-container:hover .logo-text::after {
+    @apply w-full;
+  }
+  
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent bg-[length:200%_auto] animate-text-shine;
+  }
+  
+  .social-button {
+    @apply flex items-center py-3 px-4 rounded-lg border border-border bg-transparent text-light text-base cursor-pointer transition-all duration-300 relative overflow-hidden;
+  }
+  
+  .social-button::before {
+    content: '';
+    @apply absolute top-0 left-[-100%] w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-all duration-500;
+  }
+  
+  .social-button:hover::before {
+    @apply left-full;
+  }
+  
+  .social-button i, .social-button svg {
+    @apply mr-3 text-xl transition-transform duration-300;
+  }
+  
+  .social-button:hover {
+    @apply bg-white/10 transform -translate-y-1 shadow-lg border-primary/50;
+  }
+  
+  .social-button:hover i, .social-button:hover svg {
+    @apply transform scale-110;
+  }
+  
+  .continue-button {
+    @apply w-full py-3 rounded-lg border-none bg-gradient-primary bg-[length:200%_auto] text-light text-base font-semibold cursor-pointer transition-all duration-500 relative overflow-hidden z-10;
+  }
+  
+  .continue-button::before {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-full bg-gradient-to-r from-secondary to-primary bg-[length:200%_auto] -z-10 transition-opacity duration-500 opacity-0;
+  }
+  
+  .continue-button:hover {
+    @apply transform -translate-y-1 shadow-lg bg-right-center;
+  }
+  
+  .continue-button:hover::before {
+    @apply opacity-100;
+  }
+  
+  .continue-button:active {
+    @apply transform -translate-y-0.5 shadow-md;
+  }
+  
+  .image-overlay {
+    @apply absolute top-0 left-0 w-full h-full bg-gradient-overlay mix-blend-overlay z-10 animate-gradient-flow bg-[length:400%_400%];
+  }
+  
+  .particle {
+    @apply absolute block pointer-events-none w-[5px] h-[5px] bg-white/20 rounded-full animate-float;
+  }
+}
+
+@layer utilities {
+  .bg-right-center {
+    background-position: right center;
+  }
+} 

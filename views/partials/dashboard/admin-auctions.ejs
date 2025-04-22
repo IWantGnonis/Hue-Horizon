@@ -1,0 +1,40 @@
+<div class="ml-64 p-8">
+    <h1 class="text-3xl font-bold mb-6">Monitor Auctions</h1>
+    
+    <div class="bg-white dark:bg-black rounded-lg shadow-lg p-6 border border-black dark:border-white">
+        <div class="flex justify-between mb-4">
+            <input 
+                id="search-input" 
+                type="text" 
+                placeholder="Search auctions..." 
+                class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-black dark:text-white"
+            />
+        </div>
+        
+        <div id="loading" class="hidden text-center py-4">
+            <i class="fas fa-spinner fa-spin text-2xl"></i>
+            <p>Loading auctions...</p>
+        </div>
+        
+        <div id="error" class="hidden bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 p-4 rounded mb-4"></div>
+        
+        <div class="overflow-x-auto">
+            <table id="auctions-table" class="w-full">
+                <thead>
+                    <tr class="border-b border-black dark:border-white">
+                        <th class="p-4 text-left">Artwork</th>
+                        <th class="p-4 text-left">Current Bid</th>
+                        <th class="p-4 text-left">Bidder</th>
+                        <th class="p-4 text-left">Time Remaining</th>
+                        <th class="p-4 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Auctions will be loaded here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="/js/admin/auctions.js"></script>

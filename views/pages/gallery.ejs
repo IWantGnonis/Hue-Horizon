@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Gallery - Hue Horizon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Satoshi', sans-serif;
+        }
+        .category-card {
+            transition: transform 0.3s ease;
+        }
+        .category-card:hover {
+            transform: scale(1.02);
+        }
+        .category-overlay {
+            background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 100%);
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        .category-card:hover .category-overlay {
+            opacity: 1;
+        }
+        .artwork-card {
+            transition: all 0.3s ease;
+        }
+        .artwork-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .hero-gradient {
+            background: linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
+        }
+        .artwork-overlay {
+            background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .artwork-card:hover .artwork-overlay {
+            opacity: 1;
+        }
+        .favorite-btn {
+            opacity: 1 !important;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        .favorite-btn .fas.fa-heart {
+            transition: color 0.3s ease;
+        }
+        .favorite-btn:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .hero{ 
+            position: relative; 
+            width: 100vw,;
+            height: 100svh; 
+            background-color: #15161b; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            clip-path: polygon(0% 45%, 0% 45%, 0% 55%, 0% 55%);
+            will-change: clip-path;
+        }
+        .progress-bar {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width:25vw;
+            padding:2em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color:#ffbb00;
+        }
+.video-container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100Svh;
+    background-color: #000;
+    clip-path: polygon(20% 20%, 80% 20%, 80% 80%, 20% 80%);
+    will-change: transform,clip-path;
+    overflow: hidden;
+}
+.video-container video{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: auto;
+    min-width:100%;
+    min-height:100%;
+    object-fit: cover;
+    opacity: 0.85;
+}
+
+</style>
+<body class="bg-gray-100 overflow-x-hidden">
+
+    <%- include('../partials/navbar') %>
+
+    <div class="hero">
+        <div class="progress-bar">
+            <p>Loading</p>
+        <p>/<span id="counter">0</span></p>
+    </div>
+    <div class="video-container ">
+        <div>
+
+            <img src="/Images/classical-14.jpg" alt="">
+            <h1 class="text-7xl absolute top-[45%] left-[40%]">GALLERY</h1>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <main>
+        <!-- Hero Section -->
+        
+
+        <!-- Categories Section -->
+        <section id="categories" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h4 class="text-amber-600 mb-2">Art Categories</h4>
+                    <h2 class="text-4xl font-light mb-4">Browse Our Collections</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Explore our diverse collection of artworks across different categories. Click on any category to view its unique pieces.</p>
+                </div>
+
+                <!-- Category Filter Buttons -->
+                <div class="flex flex-wrap justify-center gap-4 mb-12">
+                    <button onclick="CategoryManager.showAllCategories()" class="px-6 py-2 rounded-full bg-amber-50 text-black hover:bg-amber-100 transition-colors active-filter">
+                        All Categories
+                    </button>
+                </div>
+
+                <div id="categoriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <!-- Categories will be loaded dynamically -->
+                    <div class="col-span-full text-center py-8">
+                        <div class="animate-pulse">
+                            <div class="h-64 bg-gray-200 rounded-lg mb-4"></div>
+                            <div class="h-4 bg-gray-200 rounded w-3/4 mx-auto"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Artworks Section -->
+        <section id="artworksSection" class="py-20 bg-white hidden">
+            <div class="container mx-auto px-6">
+                <div class="flex justify-between items-center mb-12">
+                    <div class="flex items-center gap-4">
+                        <button id="backToCategoriesBtn" class="text-gray-600 hover:text-black flex items-center gap-1">
+                            <i class="fas fa-arrow-left"></i>
+                            <span>Back to Categories</span>
+                        </button>
+                        <h2 id="categoryTitle" class="text-4xl font-light"></h2>
+                        <span id="artworkCount" class="text-gray-500 text-lg"></span>
+                    </div>
+                </div>
+
+                <!-- Added container for category description -->
+                <p id="categoryDescription" class="text-gray-600 mb-8 max-w-3xl"></p> 
+
+                <div id="artworksGrid" class="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">
+                    <!-- Artworks will be loaded dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- All Artworks Section -->
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-light mb-8">All Artworks</h2>
+                <div id="allArtworksGrid" class="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">
+                    <!-- All artworks will be loaded dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Join Community Section -->
+        <section class="py-20 bg-black text-white">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl font-light mb-6">Join Our Creative Community</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto mb-8">
+                    Share your artwork, connect with fellow artists, and be part of a growing creative community.
+                </p>
+                <a href="/register" class="inline-block px-8 py-3 bg-amber-50 text-black rounded-lg hover:bg-amber-200 transition-colors">
+                    Get Started
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-white text-lg mb-4">Hue Horizon</h3>
+                    <p class="text-sm">A platform for artists to showcase and share their creative work with the world.</p>
+                </div>
+                <div>
+                    <h4 class="text-white text-sm mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/" class="hover:text-white">Home</a></li>
+                        <li><a href="/explore" class="hover:text-white">Explore</a></li>
+                        <li><a href="/about" class="hover:text-white">About</a></li>
+                        <li><a href="/contact" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white text-sm mb-4">Categories</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white">Digital Art</a></li>
+                        <li><a href="#" class="hover:text-white">Traditional</a></li>
+                        <li><a href="#" class="hover:text-white">Photography</a></li>
+                        <li><a href="#" class="hover:text-white">Illustration</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white text-sm mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="hover:text-white"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="hover:text-white"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-sm text-center">
+                <p>&copy; 2024 Hue Horizon. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Add notification system at the bottom of body -->
+    <div id="notification" class="fixed bottom-4 right-4 transform translate-y-full opacity-0 transition-all duration-300 z-50">
+        <div class="bg-black text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3">
+            <i id="notificationIcon" class="fas"></i>
+            <span id="notificationText"></span>
+        </div>
+    </div>
+
+</body>
+    <!-- Corrected script paths relative to the public root -->
+    <script src="/js/gallery/utils.js"></script>
+    <script type="module" src="/js/gallery/animations.js"></script>
+    <script type="module" src="/js/gallery/categories.js"></script>
+    <script src="/js/gallery/notifications.js"></script>
+    <script type="module" src="/js/gallery/favorites.js"></script> <!-- Make favorites a module if it exports -->
+    <script type="module" src="/js/gallery/artworks.js"></script> 
+    <script type="module" src="/js/gallery.js"></script> 
+
+
+
+
+
+
+    
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Images Gallery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="main">
+        <div class="plane plane1">
+            <img src="https://picsum.photos/200/300?random=1" alt="Image 1">
+            <img src="https://picsum.photos/200/300?random=2" alt="Image 2">
+            <img src="https://picsum.photos/200/300?random=7" alt="Image 7">
+        </div>
+        <div class="plane plane2">
+            <img src="https://picsum.photos/200/300?random=4" alt="Image 4">
+            <img src="https://picsum.photos/200/300?random=6" alt="Image 6">
+            <img src="https://picsum.photos/200/300?random=8" alt="Image 8">
+        </div>
+        <div class="plane plane3">
+            <img src="https://picsum.photos/200/300?random=3" alt="Image 3">
+            <img src="https://picsum.photos/200/300?random=5" alt="Image 5">
+        </div>
+        <div class="title">
+            <h1>Floating Images Gallery</h1>
+            <p>HTML, CSS, and GSAP</p>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+body{
+  background-color: black;
+  margin: 0px;
+}
+
+.main{  
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+}
+
+.title{
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  transform: translateX(-50%) translateY(-50%);
+  font-size: 18px;
+  z-index: 1;
+}
+
+.title h1{
+  font-weight: 400;
+  color: white;
+  margin: 0px;
+  text-align: center;
+}
+
+.title p{
+  color: grey;
+  margin: 0px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.plane{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.plane img{
+  position: absolute;
+}
+
+.plane1{
+  filter: brightness(0.7);
+}
+
+.plane1 img:nth-child(1){
+  left:90%;
+  top: 70%;
+}
+
+.plane1 img:nth-child(2){
+  left: 5%;
+  top: 65%;
+}
+
+.plane1 img:nth-child(3){
+  left: 35%;
+  top: 0%;
+}
+
+.plane2{
+  filter: brightness(0.6);
+}
+
+.plane2 img:nth-child(1){
+  left: 5%;
+  top: 10%;
+}
+
+.plane2 img:nth-child(2){
+  left: 80%;
+  top: 5%;
+}
+
+.plane2 img:nth-child(3){
+  left: 60%;
+  top: 60%;
+}
+
+.plane3{
+  filter: brightness(0.5);
+}
+
+.plane3 img:nth-child(1){
+  left: 65%;
+  top: 2.5%;
+}
+
+.plane3 img:nth-child(2){
+  left: 40%;
+  top: 75%;
+}
+const plane1 = document.querySelector(".plane1");
+const plane2 = document.querySelector(".plane2");
+const plane3 = document.querySelector(".plane3");
+
+let requestAnimationFrameId = null;
+let xForce = 0;
+let yForce = 0;
+const easing = 0.08;
+const speed = 0.01;
+
+const manageMouseMove = (e) => {
+    const { movementX, movementY } = e
+    xForce += movementX * speed;
+    yForce += movementY * speed;
+
+    if(requestAnimationFrameId == null){
+        requestAnimationFrameId = requestAnimationFrame(animate);
+    }
+}
+
+const lerp = (start, target, amount) => start * (1 - amount) + target * amount;
+
+const animate = () => {
+    xForce = lerp(xForce, 0, easing);
+    yForce = lerp(yForce, 0, easing);
+    gsap.set(plane1, {x: `+=${xForce}`, y: `+=${yForce}`})
+    gsap.set(plane2, {x: `+=${xForce * 0.5}`, y: `+=${yForce * 0.5}`})
+    gsap.set(plane3, {x: `+=${xForce * 0.25}`, y: `+=${yForce * 0.25}`})
+
+    if(Math.abs(xForce) < 0.01) xForce = 0;
+    if(Math.abs(yForce) < 0.01) yForce = 0;
+    
+    if(xForce != 0 || yForce != 0){
+        requestAnimationFrame(animate);
+    }
+    else{
+        cancelAnimationFrame(requestAnimationFrameId)
+        requestAnimationFrameId = null;
+    }
+}
+
+document.addEventListener("mousemove", manageMouseMove);

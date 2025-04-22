@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll Perspective</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            overflow-x: hidden;
+            font-family: sans-serif;
+        }
+        
+        main {
+            position: relative;
+            height: 200vh;
+        }
+        
+        .section1 {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            background-color: #C72626;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 10vh;
+            overflow: hidden;
+        }
+        
+        .section1 p {
+            font-size: 3.5vw;
+        }
+        
+        .section1 .flex {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .section1 .image-container {
+            position: relative;
+            width: 12.5vw;
+            height: 12.5vw;
+            transform-style: preserve-3d;
+            transition: transform 0.2s ease-out;
+        }
+        
+        .section1 img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            backface-visibility: hidden;
+        }
+        
+        .section2 {
+            position: relative;
+            height: 100vh;
+        }
+        
+        .section2 img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="section1">
+            <p>Scroll Perspective</p>
+            <div class="flex">
+                <p>Section</p>
+                <div class="image-container">
+                    <img src="https://picsum.photos/id/237/800/800" alt="Image 1">
+                </div>
+                <p>Transition</p>
+            </div>
+        </div>
+        
+        <div class="section2">
+            <img src="https://picsum.photos/id/238/2000/1000" alt="Image 2">
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const section1 = document.querySelector('.section1');
+            const imageContainer = document.querySelector('.section1 .image-container');
+            const image = document.querySelector('.section1 img');
+            const main = document.querySelector('main');
+            const section2 = document.querySelector('.section2 img');
+            
+            // Scroll event listener for animation
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                const scrollMax = document.body.scrollHeight - window.innerHeight;
+                const scrollRatio = scrollY / scrollMax;
+                
+                // Rotate the image based on scroll position
+                const rotation = scrollRatio * 180;
+                const scale = 1 + (scrollRatio * 0.5);
+                
+                imageContainer.style.transform = `rotateY(${rotation}deg) scale(${scale})`;
+                
+                // Fade out section1
+                section1.style.opacity = 1 - (scrollRatio * 1.5);
+                
+                // Parallax effect for section2
+                section2.style.transform = `translateY(${-100 * scrollRatio}px)`;
+            });
+        });
+    </script>
+</body>
+</html>

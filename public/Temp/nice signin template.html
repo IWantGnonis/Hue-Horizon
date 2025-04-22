@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hue Horizon - Sign In</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+      body {
+        background: linear-gradient(135deg, #141e30, #243b55);
+        overflow: hidden;
+        font-family: 'Arial', sans-serif;
+      }
+      canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2;
+      }
+      .bg-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(20,30,48,0.3), rgba(36,59,85,0.3));
+        z-index: -1;
+      }
+      .title {
+        position: absolute;
+        left: 5%;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 6rem;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 4px 4px 20px rgba(255, 255, 255, 0.5);
+      }
+      .signin-container {
+        position: absolute;
+        right: 10%;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 1rem;
+        backdrop-filter: blur(10px);
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        transform-origin: center;
+        max-width: 350px;
+        width: 90%;
+      }
+      input {
+        background: rgba(255, 255, 255, 0.2);
+        color: #f8f8f8;
+        border: none;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+        outline: none;
+        transition: border-color 0.3s;
+      }
+      input:focus {
+        border-color: #fff;
+      }
+      ::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
+      button {
+        transition: background 0.3s, transform 0.3s;
+        border: none;
+      }
+      button:hover {
+        background: #fff;
+        color: #000;
+        transform: scale(1.02);
+      }
+    </style>
+</head>
+<body>
+    <canvas id="smokeCanvas"></canvas>
+    <div class="bg-overlay"></div>
+    <h1 class="title">Hue Horizon</h1>
+    <div class="signin-container">
+      <h2 class="text-white text-3xl font-bold mb-4">Sign In</h2>
+      <input type="text" placeholder="Username" class="block w-full p-3 mb-4 rounded bg-transparent" />
+      <input type="password" placeholder="Password" class="block w-full p-3 mb-4 rounded bg-transparent" />
+      <button class="w-full p-3 bg-white text-black font-bold rounded">Login</button>
+    </div>
+
+    <script>
+      // Setup canvas for animated smoke effect
+      const canvas = document.getElementById("smokeCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const particles = [];
+      const maxParticles = 80;
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * 200 - 150;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 100 + 50;
+          this.speedX = Math.random() * 2.5 + 4.5;
+          this.speedY = Math.random() * 0.6 - 0.3;
+          this.wiggle = Math.random() * 3 - 1.5;
+          this.opacity = Math.random() * 0.3 + 0.2;
+        }
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY + Math.sin(this.x * 0.05) * this.wiggle;
+          this.opacity -= 0.002;
+          if (this.opacity <= 0) {
+            this.reset();
+          }
+        }
+        draw() {
+          const gradient = ctx.createRadialGradient(
+            this.x, this.y, 0,
+            this.x, this.y, this.size
+          );
+          gradient.addColorStop(0, `rgba(255, 255, 255, ${this.opacity})`);
+          gradient.addColorStop(0.5, `rgba(200, 200, 200, ${this.opacity * 0.6})`);
+          gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        reset() {
+          this.x = Math.random() * 200 - 150;
+          this.y = Math.random() * canvas.height;
+          this.opacity = Math.random() * 0.3 + 0.2;
+        }
+      }
+
+      function initParticles() {
+        for (let i = 0; i < maxParticles; i++) {
+          particles.push(new Particle());
+        }
+      }
+
+      function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(particle => {
+          particle.update();
+          particle.draw();
+        });
+        requestAnimationFrame(animateParticles);
+      }
+
+      initParticles();
+      animateParticles();
+
+      // GSAP Animations for page elements
+      gsap.from(".title", { opacity: 0, x: -50, duration: 1, ease: "power2.out" });
+      gsap.from(".signin-container", { opacity: 0, y: -50, duration: 1, ease: "power2.out" });
+    
+      // Animate the background overlay for a subtle dynamic effect
+      gsap.to(".bg-overlay", {
+        background: "linear-gradient(135deg, rgba(36,59,85,0.6), rgba(20,30,48,0.6))",
+        duration: 5,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut"
+      });
+
+      // Enlarge the sign-in container when the username input is focused
+      const usernameInput = document.querySelector('input[type="text"]');
+      const signinContainer = document.querySelector(".signin-container");
+
+      usernameInput.addEventListener("focus", () => {
+        gsap.to(signinContainer, { scale: 1.05, duration: 0.3, ease: "power2.out" });
+      });
+      usernameInput.addEventListener("blur", () => {
+        gsap.to(signinContainer, { scale: 1, duration: 0.3, ease: "power2.out" });
+      });
+
+      // Adjust canvas dimensions on window resize
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    </script>
+</body>
+</html>

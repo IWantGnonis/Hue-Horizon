@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hue Horizon - Create Account</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
+    <script type="module">
+      import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+      
+      const supabase = createClient('<%= SUPABASE_URL %>', '<%= SUPABASE_ANON_KEY %>');
+      
+      window.auth = {
+        async signUp(email, password, fullName) {
+          try {
+            // First sign up the user with Supabase auth
+            const { data, error } = await supabase.auth.signUp({
+              email,
+              password,
+              options: { data: { full_name: fullName } }
+            });
+            if (error) throw error;
+            
+            // Check if user record already exists
+            const { data: existingUser } = await supabase
+              .from('users')
+              .select()
+              .eq('id', data.user.id)
+              .single();
+            
+            // Only create new user record if it doesn't exist
+            if (!existingUser) {
+              const { error: insertError } = await supabase
+                .from('users')
+                .insert([
+                  { 
+                    id: data.user.id,
+                    status: 'user',
+                    full_name: fullName || email
+                  }
+                ]);
+              
+              if (insertError) {
+                console.error("Error creating user record:", insertError);
+                throw insertError;
+              }
+            }
+            
+            // Set the access token cookie if session exists
+            if (data.session) {
+              document.cookie = `access_token=${data.session.access_token}; path=/; max-age=3600; SameSite=Strict`;
+            }
+            
+            window.location.href = '/home';
+            return data;
+          } catch (error) {
+            console.error("Signup error:", error);
+            throw error;
+          }
+        },
+
+        async signIn(email, password) {
+          try {
+            const response = await fetch('/auth/login', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+            if (!data.success) throw new Error(data.error);
+
+            window.location.href = '/home';
+            return data;
+          } catch (error) {
+            console.error("Sign in error:", error);
+            throw error;
+          }
+        },
+
+        async signInWithProvider(provider) {
+          try {
+            const { data, error } = await supabase.auth.signInWithOAuth({
+              provider,
+              options: {
+                redirectTo: `${window.location.origin}/auth/callback`
+              }
+            });
+            if (error) throw error;
+            return data;
+          } catch (error) {
+            throw error;
+          }
+        }
+      };
+    </script>
+    <script>
+      tailwind.config = {
+       
+      }
+    </script>
+    <style>
+      .auth-form { display: none; }
+      .auth-form.active { display: block; }
+      .social-auth.hidden { display: none; }
+      .signup-only {
+        transition: all 0.3s ease;
+      }
+      .signin-mode .signup-only {
+        display: none;
+      }
+    </style>
+    <script>
+      // Make Supabase config available to our login.js
+      window.SUPABASE_URL = '<%= SUPABASE_URL %>';
+      window.SUPABASE_ANON_KEY = '<%= SUPABASE_ANON_KEY %>';
+    </script>
+    <script src="/js/login.js"></script>
+  </head>
+  <body class="">
+    <div class="min-h-screen flex bg-white" >
+        <!-- Left Section -->
+        <div class="w-screen relative bg-cover bg-center bg-no-repeat flex" style="background-image: url(/Images/classical-14.jpg);">
+
+            
+
+            <!-- Auth Form Container -->
+            <div id="authForm" class=" space-y-6/ backdrop-blur-md backdrop-opacity-100 p-[40px] w-[45%] h-screen flex justify-center flex-col">
+                <div id="errorMessage" class="hidden bg-red-500/10 border border-red-500/20 text-red-500 p-3 rounded-md mb-4"></div>
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-xl text-white" id="authTitle">Create Account</h2>
+                    <button id="toggleAuth" class=" hover:text-[#000] text-sm">
+                        Sign In Instead
+                    </button>
+                </div>
+                
+                <form onsubmit="return false;" class="space-y-4">
+                    <div id="fullNameField" class="signup-only">
+                        <input 
+                            type="text" 
+                            id="fullName"
+                            placeholder="Full Name"
+                            class="w-full bg-amber-100 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#8A2BE2] transition-all"
+                        >
+                    </div>
+                    <div>
+                        <input 
+                            type="email" 
+                            id="email"
+                            placeholder="Email"
+                            class="w-full bg-amber-100 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#8A2BE2] transition-all"
+                            required
+                        >
+                    </div>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="password"
+                            placeholder="Password"
+                            class="w-full bg-amber-100 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#8A2BE2] transition-all"
+                            required
+                        >
+                        <button type="button" onclick="togglePassword(this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div id="confirmPasswordField" class="signup-only relative">
+                        <input 
+                            type="password" 
+                            id="confirmPassword"
+                            placeholder="Confirm Password"
+                            class="w-full c:\Users\DELL\Desktop\hue\public\Images\classical-11.jpg bg-amber-100 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#8A2BE2] transition-all"
+                        >
+                        <button type="button" onclick="togglePassword(this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+
+                    <button 
+                        id="authSubmit" 
+                        class="w-full bg-black text-white py-3 rounded-md hover:bg-[#9A3BF2] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                        <span id="submitText">Create Account</span>
+                        <i id="loadingSpinner" class="fas fa-spinner fa-spin hidden"></i>
+                    </button>
+                </form>
+
+                <div class="text-center">
+                    <a href="#" class="+
+                     hover:text-[#9A3BF2] text-sm">Need help?</a>
+                </div>
+
+                <div class="mt-8">
+                    <p class="text-white text-center mb-4">Or continue with:</p>
+                    <div class="flex gap-4 justify-center">
+                        <button class="social-btn" onclick="handleSocialAuth('google')">
+                          <svg viewBox="0 0 24 24" focusable="false" class="chakra-icon css-jutvht h-7" aria-hidden="true"><path d="M12 9.81836V14.4656H18.4582C18.1746 15.9602 17.3236 17.2257 16.0472 18.0766L19.9417 21.0984C22.2108 19.0039 23.5199 15.9276 23.5199 12.273C23.5199 11.4221 23.4436 10.6039 23.3017 9.81849L12 9.81836Z" fill="#4285F4"></path><path d="M5.27461 14.2842L4.39625 14.9566L1.28711 17.3783C3.26165 21.2947 7.30862 24.0002 11.9995 24.0002C15.2394 24.0002 17.9557 22.9311 19.9412 21.0984L16.0467 18.0765C14.9776 18.7965 13.614 19.2329 11.9995 19.2329C8.87951 19.2329 6.22868 17.1275 5.27952 14.2911L5.27461 14.2842Z" fill="#34A853"></path><path d="M1.28718 6.62158C0.469042 8.23606 0 10.0579 0 11.9997C0 13.9415 0.469042 15.7633 1.28718 17.3778C1.28718 17.3886 5.27997 14.2796 5.27997 14.2796C5.03998 13.5596 4.89812 12.796 4.89812 11.9996C4.89812 11.2031 5.03998 10.4395 5.27997 9.71951L1.28718 6.62158Z" fill="#FBBC05"></path><path d="M11.9997 4.77818C13.767 4.77818 15.3379 5.38907 16.5925 6.56727L20.0288 3.13095C17.9452 1.18917 15.2398 0 11.9997 0C7.30887 0 3.26165 2.69454 1.28711 6.62183L5.27978 9.72001C6.22882 6.88362 8.87976 4.77818 11.9997 4.77818Z" fill="#EA4335"></path></svg>
+                        </button>
+                        <button class="social-btn" onclick="handleSocialAuth('microsoft')">
+                          <svg viewBox="0 0 24 24" focusable="false" class="chakra-icon css-jutvht h-7 pl-[2px] " aria-hidden="true"><path d="M0 0H10.6236V10.6236H0V0Z" fill="#0078D7"></path><path d="M11.375 10.6236V0H21.9986V10.6236H11.375Z" fill="#0078D7"></path><path d="M0 11.3765H10.6236V22H0V11.3765Z" fill="#0078D7"></path><path d="M11.375 22V11.3765H21.9986V22H11.375Z" fill="#0078D7"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex justify-between text-xs text-gray-600 mt-8">
+                    <a href="#" class="text-white">Privacy Policy</a>
+                    <a href="#" class="text-white">Terms of Service</a>
+                </div>
+            </div>
+
+            <style>
+               
+            </style>
+
+            <script>
+                let isSignUp = true;
+                const authForm = document.getElementById('authForm');
+                const authTitle = document.getElementById('authTitle');
+                const toggleAuth = document.getElementById('toggleAuth');
+                const authSubmit = document.getElementById('authSubmit');
+                const submitText = document.getElementById('submitText');
+                const loadingSpinner = document.getElementById('loadingSpinner');
+                const errorMessage = document.getElementById('errorMessage');
+
+                // Handle form submission
+                authSubmit.addEventListener('click', async () => {
+                    const email = document.getElementById('email').value;
+                    const password = document.getElementById('password').value;
+
+                    // Show loading state
+                    authSubmit.disabled = true;
+                    submitText.textContent = isSignUp ? 'Creating Account...' : 'Signing In...';
+                    loadingSpinner.classList.remove('hidden');
+                    errorMessage.classList.add('hidden');
+
+                    try {
+                        if (isSignUp) {
+                            const fullName = document.getElementById('fullName').value;
+                            const confirmPassword = document.getElementById('confirmPassword').value;
+                            
+                            if (!fullName) {
+                                throw new Error('Please enter your full name');
+                            }
+                            
+                            if (password !== confirmPassword) {
+                                throw new Error('Passwords do not match!');
+                            }
+                            
+                            await window.auth.signUp(email, password, fullName);
+                        } else {
+                            await window.auth.signIn(email, password);
+                        }
+                    } catch (error) {
+                        // Show error message
+                        errorMessage.textContent = error.message;
+                        errorMessage.classList.remove('hidden');
+                        
+                        // Reset button state
+                        authSubmit.disabled = false;
+                        submitText.textContent = isSignUp ? 'Create Account' : 'Sign In';
+                        loadingSpinner.classList.add('hidden');
+                    }
+                });
+
+                // Toggle between signup and signin
+                toggleAuth.addEventListener('click', () => {
+                    isSignUp = !isSignUp;
+                    
+                    // GSAP animation for form transition
+                    const tl = gsap.timeline({ defaults: { ease: 'power2.inOut' } });
+                    
+                    tl.to('#authForm', {
+                        opacity: 0,
+                        y: 20,
+                        duration: 0.3
+                    })
+                    .add(() => {
+                        if (isSignUp) {
+                            authForm.classList.remove('signin-mode');
+                            authTitle.textContent = 'Create Account';
+                            toggleAuth.textContent = 'Sign In Instead';
+                            submitText.textContent = 'Create Account';
+                        } else {
+                            authForm.classList.add('signin-mode');
+                            authTitle.textContent = 'Welcome Back';
+                            toggleAuth.textContent = 'Create Account Instead';
+                            submitText.textContent = 'Sign In';
+                        }
+                    })
+                    .to('#authForm', {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.3
+                    });
+                });
+
+                // Handle social auth
+                window.handleSocialAuth = async (provider) => {
+                    try {
+                        await window.auth.signInWithProvider(provider);
+                    } catch (error) {
+                        errorMessage.textContent = error.message;
+                        errorMessage.classList.remove('hidden');
+                    }
+                };
+
+                // Toggle password visibility
+                window.togglePassword = function(button) {
+                    const input = button.parentElement.querySelector('input');
+                    const icon = button.querySelector('i');
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icon.classList.replace('fa-eye', 'fa-eye-slash');
+                    } else {
+                        input.type = 'password';
+                        icon.classList.replace('fa-eye-slash', 'fa-eye');
+                    }
+                };
+            </script>
+
+            <div class="relative left-[450px] text-yellow-100 text-right text-[100px]">
+              <h1>Hue</h1>
+              <h1 class="relative top-[-60px]">Horizon</h1>
+            </div>
+        </div>
+
+        <!-- Right Section - Background Image -->
+        <div class="flex-1 bg-center bg-cover bg-no-repeat" style="background-image: url('/Images/classical-11.jpg');">
+        </div>
+    </div>
+    
+
+  </body>
+</html>

@@ -1,0 +1,220 @@
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+
+:root {
+    --primary: #8A2BE2;
+    --background: #0a0a0a;
+    --surface: #1a1a1a;
+    --border: #333;
+}
+
+/* Base styles */
+@layer base {
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: var(--background);
+        color: white;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        margin: 0;
+    }
+
+    button {
+        cursor: pointer;
+    }
+}
+
+/* Components */
+@layer components {
+    .social-btn {
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .social-btn:hover {
+        background: #222;
+        border-color: var(--primary);
+    }
+
+    .social-btn i {
+        font-size: 20px;
+        color: #888;
+    }
+
+    .back-button {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+        background: #222;
+        border-color: var(--primary);
+    }
+
+    input {
+        background-color: var(--surface);
+        border: 1px solid var(--border);
+        color: white;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.2);
+    }
+
+    input::placeholder {
+        color: #666;
+    }
+}
+
+/* Utilities */
+@layer utilities {
+    .min-h-screen {
+        min-height: 100vh;
+    }
+
+    .w-\[45\%\] {
+        width: 45%;
+    }
+
+    .bg-\[\#0a0a0a\] {
+        background-color: #0a0a0a;
+    }
+
+    .text-\[\#8A2BE2\] {
+        color: #8A2BE2;
+    }
+
+    .bg-\[\#1a1a1a\] {
+        background-color: #1a1a1a;
+    }
+
+    .border-\[\#333\] {
+        border-color: #333;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--surface);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #444;
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.gradient-text {
+    background: linear-gradient(120deg, #fff, #8A2BE2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.gradient-text-alt {
+    background: linear-gradient(120deg, #8A2BE2, #fff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.title-container {
+    position: relative;
+}
+
+.title-container::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #8A2BE2, transparent);
+    opacity: 0.5;
+}
+
+.social-btn {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.5rem;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: #8A2BE2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+    border-color: #8A2BE2;
+    transform: translateY(-2px);
+}
+
+.error-message {
+    z-index: 1000;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.fa-spin {
+    animation: spin 1s linear infinite;
+}

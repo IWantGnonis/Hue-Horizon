@@ -1,0 +1,188 @@
+<!-- Awwards-inspired Auction Design -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+<script>
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+<main class="min-h-screen">
+    <!-- Header -->
+    
+    <%- include('../partials/navbar.ejs') %>
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0  from-black via-black/80 to-black/30 z-0"></div>
+        <div>
+            <img src="/Images/classical-13.jpg" alt="">
+            <h1 class="text-7xl absolute top-[45%] left-[40%] text-yellow-200">AUCTION</h1>
+        </div>
+    </section>
+    
+   <!--- <section class="flex items-center justify-center h-screen w-screen">
+        <p class=" z-2 absolute text-3xl text-center font-bold">Step into a world where every stroke tells a story, and every bid <br> brings you closer to owning a masterpiece. Hue Horizon Auctions <br> is your premier destination for discovering exclusive artworks and timeless <br> treasures, curated for collectors, enthusiasts, and dreamers alike.</p>
+  </section>-->
+
+    <!-- Auctions Grid -->
+    <section id="auctions" class="container mx-auto px-6 py-20">
+        <div class="flex justify-between items-end mb-16 border-b border-white/10 pb-6">
+            <h2 class="text-[100px] md:text-6xl">AUCTION</h2>
+            <div class="flex items-center gap-4">
+                <div class="relative">
+
+                </div>
+            </div>
+        </div>
+
+        <div id="auctionsGrid" class="columns-1 gap-4 sm:columns-2 lg:columns-3">
+
+            <% if (typeof artworks !== 'undefined' && artworks.length > 0) { %>
+                <% artworks.forEach(artwork => { %>
+                    <div class="auction-card mb-4 break-inside-avoid group relative overflow-hidden transition-all duration-300 hover:shadow-2xl">
+                        <div class="relative overflow-hidden">
+                            <img src="<%= artwork.image_url %>" 
+                                 alt="<%= artwork.title %>"
+                                 class="w-full object-cover transition-transform duration-700 group-hover:scale-105">
+                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                              <p class="text-sm text-white" ><%= artwork.users.full_name %></p>
+                            </div>
+                          </div>
+                          <div class="p-5 bg-amber-50">
+                          <div class="flex justify-between items-end bg-amber-50">
+                              <div>
+                                  <h3 class="text-xl font-bold nt-bold line-clamp-1"><%= artwork.title %></h3>
+                              </div>
+                              <% if (artwork.auctions) { %>
+                                  <div class="text-right">
+                                      <p class="text-xs text-gray-700">Current Bid</p>
+                                      <p class="text-lg font-bold">$<%= artwork.auctions[0]?.current_bid || artwork.auctions[0]?.starting_bid || 0 %></p>
+                                  </div>
+                              <% } %>
+                          </div>
+                            <p class="text-gray-400 mb-4 line-clamp-2"><%= artwork.description || 'No description' %></p>
+                            <% if (artwork.auctions) { %>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-xs text-gray-500 mb-1">Ends in</p>
+                                        <p class="text-sm">
+                                            <span class="time-left" data-end-time="<%= artwork.auctions[0]?.end_time %>"></span>
+                                        </p>
+                                    </div>
+                                    <% if (!isLoggedIn) { %>
+                                        <div class="text-purple-400 font-medium italic">
+                                            Please login to place bids
+                                        </div>
+                                    <% } else if (currentUser && artwork.user_id === currentUser.id) { %>
+                                        <div class=" font-medium italic">
+                                            You cannot bid on your own artwork
+                                        </div>
+                                    <% } else { %>
+                                        <form action="/auction/bid/<%= artwork.id %>" method="POST" class="bid-form">
+                                            <div class="bid-container flex items-center gap-2">
+                                                <input type="number" 
+                                                       name="amount" 
+                                                       class="w-24 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 relative z-10 pointer-events-auto"
+                                                       min="<%= artwork.auctions[0]?.current_bid + 1 %>"
+                                                       placeholder="Bid amount"
+                                                       required
+                                                       onfocus="this.select()">
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            <button type="submit"
+                                                    class="px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-bold hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-purple-500/30">
+                                                Place Bid
+                                            </button>
+                                            </div>
+                                        </form>
+                                    <% } %>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="col-span-full text-center py-16">
+                    <p class="text-xl text-gray-500">No active auctions found</p>
+                </div>
+            <% } %>
+        </div>
+
+    </section>
+</main>
+
+<script>
+// Format time display
+window.addEventListener('DOMContentLoaded', () => {
+    // Calculate and display time left for each auction
+    const timeElements = document.querySelectorAll('.time-left');
+    
+    function updateTimes() {
+        const now = new Date();
+        
+        timeElements.forEach(element => {
+            const endTime = new Date(element.dataset.endTime);
+            const timeLeft = endTime - now;
+            
+            if (timeLeft <= 0) {
+                element.textContent = 'Ended'; // Auctions that have ended
+                return;
+            }
+
+            // Calculate days, hours, minutes, seconds
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            // Display most significant units
+            if (days > 0) {
+                element.textContent = `${days}d ${hours}h`;
+            } else if (hours > 0) {
+                element.textContent = `${hours}h ${minutes}m`;
+            } else {
+                element.textContent = `${minutes}m ${seconds}s`;
+            }
+        });
+    }
+
+    // Initial update
+    updateTimes();
+    
+    // Update every second
+    setInterval(updateTimes, 1000);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const toggleButton = document.querySelector(".burger");
+    let isOpen = false;
+
+    gsap.set(".menu-item p", { y: 225 });
+
+    const timeline = gsap.timeline({ paused: true });
+
+    timeline.to(".overlay", {
+      duration: 1.5,
+      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+      ease: "power4.out",
+    });
+
+    timeline.to(".menu-item p", {
+      duration: 1.5,
+      y: 0,
+      stagger: 0.2,
+      ease: "power4.out",
+    }, "-=1");
+
+    toggleButton.addEventListener("click", function () {
+      this.classList.toggle("active");
+      if (isOpen) {
+        timeline.reverse();
+      } else {
+        timeline.play();
+      }
+      isOpen = !isOpen;
+    });
+});
+</script>

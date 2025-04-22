@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Hue Horizon</title>
+    
+    <!-- External CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/dashboard/styles.css">
+
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="min-h-screen bg-white dark:bg-black text-black dark:text-white relative overflow-x-hidden">
+    <!-- Animated Blob Backgrounds -->
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <div class="w-64 h-screen bg-white dark:bg-black p-6 fixed border-r border-black dark:border-white">
+            <div class="mb-8">
+                <a href="/home" class="text-2xl font-bold">Hue Horizon</a>
+                <p class="text-gray-600 dark:text-gray-400">User Dashboard</p>
+            </div>
+            
+            <nav class="space-y-2">
+                <a href="#overview" data-section="overview" class="nav-link flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800">
+                    <i class="fas fa-home"></i>
+                    Overview
+                </a>
+                <a href="#upload" data-section="upload" class="nav-link flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    Upload Artwork
+                </a>
+                <a href="#artworks" data-section="artworks" class="nav-link flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800">
+                    <i class="fas fa-image"></i>
+                    My Artworks
+                </a>
+                <a href="#categories" data-section="categories" class="nav-link flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800">
+                    <i class="fas fa-th-large"></i>
+                    Categories
+                </a>
+                <a href="#favorites" data-section="favorites" class="nav-link flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800">
+                    <i class="fas fa-heart"></i>
+                    Favorites
+                </a>
+                <a href="#profile" data-section="profile" class="nav-link flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800">
+                    <i class="fas fa-user"></i>
+                    Profile
+                </a>
+                <a href="#auction" data-section="auction" class="nav-link flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800">
+                    <i class="fas fa-gavel"></i>
+                    Auctions
+                </a>
+                <div class="absolute bottom-6 w-[calc(100%-3rem)]">
+                    <button class="logout-btn flex items-center gap-3 p-3 rounded-lg w-full text-red-500 hover:bg-red-500/10">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </button>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="ml-64 p-8 w-full">
+            <!-- Dashboard Sections -->
+            <%- include('../partials/dashboard/overview.ejs') %>
+            <%- include('../partials/dashboard/upload.ejs') %>
+            <%- include('../partials/dashboard/artworks.ejs') %>
+            <%- include('../partials/dashboard/categories.ejs') %>
+            <%- include('../partials/dashboard/favorites.ejs') %>
+            <%- include('../partials/dashboard/profile.ejs') %>
+            <%- include('../partials/dashboard/auction.ejs') %>
+        </div>
+    </div>
+
+    <!-- Artwork Details Modal -->
+    <%- include('../partials/dashboard/artwork-modal.ejs') %>
+
+    <!-- Core Dashboard Scripts -->
+    <script type="module" src="/js/utils/notifications.js"></script>
+    <script src="/js/dashboard/dashboard.js"></script>
+
+    <!-- Component Scripts -->
+    <script type="module" src="/js/dashboard/components/upload.js"></script>
+    <script src="/js/dashboard/components/artworks.js"></script>
+    <script src="/js/dashboard/components/categories.js"></script>
+    <script src="/js/dashboard/components/favorites.js"></script>
+    <script type="module" src="/js/dashboard/components/profile.js"></script>
+    <script type="module" src="/js/dashboard/components/stats.js"></script>
+    <script type="module" src="/js/dashboard/components/auction.js"></script>
+
+    <!-- Initialize User Data -->
+    <script>
+        // Pass user data to the client-side
+        window.userData = {
+            id: '<%= user.id %>',
+            fullName: '<%= user.fullName %>',
+            email: '<%= user.email %>',
+            avatar: '<%= user.avatar %>'
+        };
+        console.log('User data initialized:', window.userData);
+    </script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+/* Dashboard layout */
+body.dashboard {
+    display: flex;
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, sans-serif;
+    background-color: #f8fafc;
+}
+
+/* Dark mode support */
+.dark body.dashboard {
+    background-color: #0f172a;
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 16rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    padding: 1.5rem;
+    overflow-y: auto;
+    border-right: 1px solid #e2e8f0;
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.dark .sidebar {
+    background-color: #1e293b;
+    border-right-color: #334155;
+}
+
+/* Main content area */
+.main-content {
+    flex: 1;
+    margin-left: 16rem;
+    padding: 2rem;
+    min-height: 100vh;
+    background-color: #f8fafc;
+}
+
+.dark .main-content {
+    background-color: #0f172a;
+}
+
+/* Navigation links */
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    color: #64748b;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    background-color: #f1f5f9;
+    color: #2563eb;
+}
+
+.dark .nav-link {
+    color: #94a3b8;
+}
+
+.dark .nav-link:hover {
+    background-color: #1e293b;
+    color: #3b82f6;
+}
+
+/* Active navigation link */
+.nav-link.active {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #2563eb;
+}
+
+.dark .nav-link.active {
+    background-color: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+}
+
+/* Logo/branding */
+.logo-container {
+    margin-bottom: 2rem;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e40af;
+}
+
+.dark .logo-text {
+    color: #93c5fd;
+}
+
+/* Section transitions */
+.section {
+    display: none;
+    min-height: calc(100vh - 4rem);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.section:not(.hidden) {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        padding: 1.5rem;
+    }
+    
+    /* Mobile menu toggle would go here */
+}
+
+/* Button styles */
+.btn-primary {
+    background-color: #2563eb;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+}
+
+/* Logout button */
+.logout-btn {
+    transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+    background-color: #fee2e2;
+}
+
+.dark .logout-btn:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+}

@@ -1,0 +1,277 @@
+/* Default styles - Desktop View */
+.tablet {
+    display: none;
+} 
+.phone {
+    display: none;
+}
+.desktop {
+    /* background-color: #ffffff; */
+    background: linear-gradient(to bottom, #f8f8f8, #ffffff); /* Subtle gradient */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+  
+.desktop .overlap-wrapper {
+    /* background-color: #ffffff; */ /* Keep gradient */
+    max-width: 1280px; /* Reduced max-width */
+    width: 100%; /* Allow shrinking */
+    height: 1024px; /* Keep height for now */
+    margin: 0 auto; /* Center the wrapper */
+    padding: 0 0; /* Vertical padding only, center content horizontally */
+    box-sizing: border-box; /* Include padding in width/height */
+}
+  
+.desktop .overlap {
+    position: relative;
+    width: 100%; /* Make overlap fill padded wrapper */
+    max-width: 1240px; /* Original content width */
+    /* height: 870px; */ /* Remove fixed height */
+    margin: 0 auto; /* Center overlap within wrapper */
+    display: flex; /* Use flexbox for centering */
+    justify-content: center;
+    align-items: center;
+}
+  
+.desktop .overlap-group {
+    position: relative; /* Change to relative for children */
+    width: 100%; /* Use percentage width */
+    max-width: 1240px; /* Keep max-width */
+    aspect-ratio: 1240 / 802; /* Maintain aspect ratio */
+    /* Remove absolute positioning properties */
+    top: -97px;
+    /* left: 50%; */
+    /* transform: translateX(-50%); */
+}
+  
+.desktop .image {
+    position: absolute;
+    width: 41.85%; /* (519 / 1240) * 100 */
+    height: 51.75%; /* (415 / 802) * 100 */
+    top: 48.25%; /* (387 / 802) * 100 */
+    left: 0%;
+    object-fit: cover;
+}
+  
+.desktop .img {
+    position: absolute;
+    width: 47.02%; /* (583 / 1240) * 100 */
+    height: 58.23%; /* (467 / 802) * 100 */
+    top: 1.62%; /* (13 / 802) * 100 */
+    left: 52.98%; /* (657 / 1240) * 100 */
+    object-fit: cover;
+}
+  
+.desktop .text-wrapper {
+    position: absolute;
+    width: 55.73%; /* (691 / 1240) * 100 */
+    height: auto; /* Let content define height */
+    top: 38.78%; /* (311 / 802) * 100 */
+    left: 23.71%; /* (294 / 1240) * 100 */
+    font-family: "Jomolhari-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 160px; /* Reverted to fixed pixel size */
+    /* max-font-size: 160px; */ /* Remove max-font-size */
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+}
+  
+.desktop .image-2 {
+    position: absolute;
+    width: 33.47%; /* (415 / 1240) * 100 */
+    height: 41.40%; /* (332 / 802) * 100 */
+    top: 0%;
+    left: 7.10%; /* (88 / 1240) * 100 */
+    object-fit: cover;
+}
+  
+.desktop .image-3 {
+    position: absolute;
+    width: 33.95%; /* (421 / 1240) * 100 */
+    height: 42.02%; /* (337 / 802) * 100 */
+    top: 66.46%; /* (533 / 802) * 100 */
+    left: 53.95%; /* (669 / 1240) * 100 */
+    object-fit: cover;
+}
+
+/* Tablet View */
+@media screen and (max-width: 770px) {
+    .desktop {
+        display: none; /* Hide desktop */
+    }
+    /* .phone remains hidden from default */
+    .tablet {
+        display: flex; /* Show tablet */
+        /* background-color: #ffffff; */
+        background: linear-gradient(to bottom, #f8f8f8, #ffffff); /* Subtle gradient */
+        flex-direction: row;
+        justify-content: center;
+        width: 100%;
+    }
+      
+    .tablet .overlap-group-wrapper {
+        /* background-color: #ffffff; */ /* Keep gradient */
+        max-width: 770px; /* Use max-width */
+        width: 100%; /* Allow shrinking */
+        height: 1024px; /* Keep height for now */
+        margin: 0 auto; /* Center the wrapper */
+        padding: 45px 0; /* Vertical padding only */
+        box-sizing: border-box;
+    }
+      
+    .tablet .overlap-group {
+        position: relative; /* Change to relative for children */
+        width: 100%; /* Fill padded wrapper */
+        max-width: 677px; /* Original content width */
+        aspect-ratio: 677 / 785; /* Maintain aspect ratio */
+        /* Remove absolute positioning properties */
+        /* top: 0; */
+        /* left: 50%; */
+        /* transform: translateX(-50%); */
+    }
+      
+    .tablet .image {
+        position: absolute;
+        width: 45.5%; /* (308 / 677) * 100 */
+        height: 31.3%; /* (246 / 785) * 100 */
+        top: 59.6%; /* (468 / 785) * 100 */
+        left: 4.7%; /* (32 / 677) * 100 */
+        object-fit: cover;
+    }
+      
+    .tablet .img {
+        position: absolute;
+        width: 64.2%; /* (435 / 677) * 100 */
+        height: 51.3%; /* (403 / 785) * 100 */
+        top: 0%;
+        left: 0%;
+        object-fit: cover;
+    }
+      
+    .tablet .text-wrapper {
+        position: absolute;
+        width: 95.9%; /* (649 / 677) * 100 */
+        height: auto; /* Let content define height */
+        top: 38.8%; /* (305 / 785) * 100 */
+        left: 0%;
+    font-family: "Jomolhari-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 154px; /* Reverted to fixed pixel size */
+    /* max-font-size: 154px; */ /* Remove max-font-size */
+    text-align: center;
+    letter-spacing: 0;
+        line-height: normal;
+    }
+      
+    .tablet .image-2 {
+        position: absolute;
+        width: 61.3%; /* (415 / 677) * 100 */
+        height: 42.3%; /* (332 / 785) * 100 */
+        top: 0%;
+        left: 38.7%; /* (262 / 677) * 100 */
+        object-fit: cover;
+    }
+      
+    .tablet .image-3 {
+        position: absolute;
+        width: 52.4%; /* (355 / 677) * 100 */
+        height: 36.2%; /* (284 / 785) * 100 */
+        top: 63.8%; /* (501 / 785) * 100 */
+        left: 47.6%; /* (322 / 677) * 100 */
+        object-fit: cover;
+    }
+}
+
+/* Phone View */
+@media screen and (max-width: 450px) {
+    /* .desktop remains hidden */
+    .tablet {
+        display: none; /* Hide tablet */
+    }
+    .phone {
+        display: flex; /* Show phone */
+        /* background-color: #ffffff; */
+        background: linear-gradient(to bottom, #f8f8f8, #ffffff); /* Subtle gradient */
+        flex-direction: row;
+        justify-content: center;
+        width: 100%;
+    }
+      
+    .phone .overlap-group-wrapper {
+        /* background-color: #ffffff; */ /* Keep gradient */
+        max-width: 480px; /* Use max-width */
+        width: 100%; /* Allow shrinking */
+        height: 1024px; /* Keep height for now */
+        margin: 0 auto; /* Center the wrapper */
+        padding: 45px 0; /* Vertical padding only */
+        box-sizing: border-box;
+    }
+      
+    .phone .overlap-group {
+        position: relative; /* Change to relative for children */
+        width: 100%; /* Fill padded wrapper */
+        max-width: 451px; /* Original content width */
+        aspect-ratio: 451 / 797; /* Maintain aspect ratio */
+        /* Remove absolute positioning properties */
+        /* top: 0; */
+        /* left: 50%; */
+        /* transform: translateX(-50%); */
+    }
+      
+    .phone .image {
+        position: absolute;
+        width: 86.0%; /* (388 / 451) * 100 */
+        height: 38.9%; /* (310 / 797) * 100 */
+        top: 61.1%; /* (487 / 797) * 100 */
+        left: 0.7%; /* (3 / 451) * 100 */
+        object-fit: cover;
+    }
+      
+    .phone .img {
+        position: absolute;
+        width: 93.1%; /* (420 / 451) * 100 */
+        height: 50.6%; /* (403 / 797) * 100 */
+        top: 0%;
+        left: 6.9%; /* (31 / 451) * 100 */
+        object-fit: cover;
+    }
+      
+    .phone .text-wrapper {
+        position: absolute;
+        width: 100%; /* Make text wrapper full width for centering */
+        height: auto; /* Let content define height */
+        top: 40.4%; /* (322 / 797) * 100 */
+        left: 0%;
+    font-family: "Jomolhari-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 100px; /* Reverted to fixed pixel size */
+    /* max-font-size: 100px; */ /* Remove max-font-size */
+    text-align: center;
+    letter-spacing: 0;
+        line-height: normal;
+    }
+      
+    .phone .image-2 {
+        position: absolute;
+        width: 92.0%; /* (415 / 451) * 100 */
+        height: 41.7%; /* (332 / 797) * 100 */
+        top: 0%;
+        left: 0.7%; /* (3 / 451) * 100 */
+        object-fit: cover;
+    }
+      
+    .phone .image-3 {
+        position: absolute;
+        width: 63.4%; /* (286 / 451) * 100 */
+        height: 28.7%; /* (229 / 797) * 100 */
+        top: 57.5%; /* (458 / 797) * 100 */
+        left: 30.1%; /* (136 / 451) * 100 */
+        object-fit: cover;
+    }
+}

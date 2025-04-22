@@ -1,0 +1,40 @@
+<section id="auction" class="section hidden ml-[300px]">
+    <h2 class="section-title">My Auctions</h2>
+    <div class="columns-1 gap-4 sm:columns-2 lg:columns-3" id="auctionsGrid">
+        <!-- Auction items will be loaded dynamically -->
+    </div>
+
+    <!-- Bid Modal -->
+    <div id="bidModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Place Bid</h3>
+                <button onclick="document.getElementById('bidModal').classList.add('hidden')" 
+                        class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                    &times;
+                </button>
+            </div>
+            
+            <form id="bidForm" class="space-y-4">
+                <input type="hidden" id="bidArtworkId">
+                
+                <div>
+                    <label for="bidAmount" class="block text-sm font-medium mb-1">Bid Amount ($)</label>
+                    <input type="number" id="bidAmount" step="0.01" min="0" 
+                           class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600" required>
+                </div>
+                
+                <div class="flex justify-end gap-3">
+                    <button type="button" onclick="document.getElementById('bidModal').classList.add('hidden')"
+                            class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600">
+                        Cancel
+                    </button>
+                    <button type="submit" 
+                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        Submit Bid
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

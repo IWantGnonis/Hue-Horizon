@@ -1,0 +1,32 @@
+<div class="ml-64 p-8">
+    <h1 class="text-3xl font-bold mb-6">Reports Dashboard</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Total Users Card -->
+        <div class="dashboard-card bg-white dark:bg-black p-6 rounded-lg border border-black dark:border-white">
+            <h3 class="text-lg font-semibold mb-2">Total Users</h3>
+            <p class="text-3xl font-bold" id="total-users">-</p>
+        </div>
+
+        <!-- Total Artwork Card -->
+        <div class="dashboard-card bg-white dark:bg-black p-6 rounded-lg border border-black dark:border-white">
+            <h3 class="text-lg font-semibold mb-2">Total Artwork</h3>
+            <p class="text-3xl font-bold" id="total-artwork">-</p>
+        </div>
+
+        <!-- Flagged Content Card -->
+        <div class="dashboard-card bg-white dark:bg-black p-6 rounded-lg border border-black dark:border-white">
+            <h3 class="text-lg font-semibold mb-2">Flagged Content</h3>
+            <p class="text-3xl font-bold" id="flagged-content">-</p>
+        </div>
+    </div>
+
+    <div class="mt-8 bg-white dark:bg-black rounded-lg shadow-lg p-6 border border-black dark:border-white">
+        <h3 class="text-xl font-semibold mb-4">Recent Activity</h3>
+        <div id="recent-activity" class="space-y-4">
+            <!-- Activity will be loaded here dynamically -->
+        </div>
+    </div>
+</div>
+
+<script src="/js/admin/reports.js"></script>

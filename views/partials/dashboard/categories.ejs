@@ -1,0 +1,32 @@
+
+<section id="categories" class="section hidden ml-[300px]">
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h2 class="text-3xl font-bold">Categories</h2>
+            <p class="text-gray-600 dark:text-gray-400">Browse artworks by category</p>
+        </div>
+        <button onclick="CategoryManager.loadCategories()" class="text-sm px-4 py-2 rounded-lg bg-[#1a1a1a] text-white hover:bg-[#2a2a2a] transition-all">
+            <i class="fas fa-sync-alt mr-2"></i>Refresh
+        </button>
+    </div>
+
+    <!-- Categories Grid -->
+    <div id="categoriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <!-- Categories will be loaded dynamically -->
+    </div>
+
+<!-- Category Artworks View -->
+<div id="categoryArtworks" class="mt-8 hidden">
+    <div class="flex items-center gap-4 mb-6">
+        <button onclick="CategoryManager.showAllCategories()" class="text-sm px-4 py-2 rounded-lg bg-[#1a1a1a] text-white hover:bg-[#2a2a2a] transition-all">
+            <i class="fas fa-arrow-left mr-2"></i>Back to Categories
+        </button>
+        <h3 class="text-xl font-bold" id="selectedCategoryTitle"></h3>
+        <span id="artworkCount" class="text-gray-500 text-lg"></span>
+    </div>
+    <div id="categoryArtworksGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <!-- Category artworks will be loaded dynamically -->
+    </div>
+</div>
+
+</section>

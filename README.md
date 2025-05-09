@@ -51,7 +51,7 @@ To start the application:
 npm start
 ```
 
-Then open your browser and navigate to `http://localhost:3001`
+Then open your browser and navigate to `http://localhost:3000`
 
 ## Technologies Used
 

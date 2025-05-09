@@ -22,7 +22,7 @@ A beautiful login page with a modern UI and Tailwind CSS styling.
    ```
 3. Create a `.env` file with the following content:
    ```
-   PORT=3001
+   PORT=3000
    ```
 
 ## Development
